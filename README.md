@@ -1,4 +1,4 @@
-# webgensystem
+# WEBGENETICSS Interpolate Management System (WIMS)
 
 Simple and minimalistic project management system made with Vue.js
 
