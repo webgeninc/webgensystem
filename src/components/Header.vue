@@ -659,7 +659,7 @@ export default {
                 const { error } = await supabase.from('notes_table').insert([
                     {
                         note_note: noteNote.value,
-                        note_worker: (user.value.email === "o.lucewicz@webgeneticss.pl" ? "Ozi" : "Mati"),
+                        note_worker: user.value.email,
                         note_time: noteTimeNow,
                         note_date: noteDateNow,
                     },
