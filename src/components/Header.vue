@@ -649,7 +649,6 @@ export default {
 
 
 
-
         const pushNote = async () => {
             let noteDate = new Date();
             let noteTimeNow = (((noteDate.getHours() > 9) ? noteDate.getHours() : "0" + noteDate.getHours()) + ":" + ((noteDate.getMinutes() > 9) ? noteDate.getMinutes() : "0" + noteDate.getMinutes()) + ":" + ((noteDate.getSeconds() > 9) ? noteDate.getSeconds() : "0" + noteDate.getSeconds()));
@@ -659,7 +658,7 @@ export default {
                 const { error } = await supabase.from('notes_table').insert([
                     {
                         note_note: noteNote.value,
-                        note_worker: user.value.email,
+                        note_worker: (user.value.email.includes("lu") === true) ? ("Ozi") : ("Mati"),
                         note_time: noteTimeNow,
                         note_date: noteDateNow,
                     },
@@ -720,26 +719,29 @@ export default {
                 const now = new Date();
                 let dayOfWeek = now.getUTCDay() + "";
 
-                if (dayOfWeek == "1") {
-                    dayOfWeek = "PONIEDZIAŁEK";
-                }
-                if (dayOfWeek == "2") {
-                    dayOfWeek = "WTOREK";
-                }
-                if (dayOfWeek == "3") {
-                    dayOfWeek = "ŚRODA";
-                }
-                if (dayOfWeek == "4") {
-                    dayOfWeek = "CZWARTEK";
-                }
-                if (dayOfWeek == "5") {
-                    dayOfWeek = "PIĄTEK";
-                }
-                if (dayOfWeek == "6") {
-                    dayOfWeek = "SOBOTA";
-                }
-                if (dayOfWeek == "0") {
-                    dayOfWeek = "NIEDZIELA";
+
+                switch (dayOfWeek) {
+                    case "1":
+                        dayOfWeek = "PONIEDZIAŁEK";
+                        break;
+                    case "2":
+                        dayOfWeek = "WTOREK";
+                        break;
+                    case "3":
+                        dayOfWeek = "ŚRODA";
+                        break;
+                    case "4":
+                        dayOfWeek = "CZWARTEK";
+                        break;
+                    case "5":
+                        dayOfWeek = "PIĄTEK";
+                        break;
+                    case "6":
+                        dayOfWeek = "SOBOTA";
+                        break;
+                    case "0":
+                        dayOfWeek = "NIEDZIELA";
+                        break;
                 }
 
                 if (now < 1) {
