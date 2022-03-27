@@ -2,6 +2,10 @@ module.exports = {
   purge: ['./public/**/*.html', './src/**/*.vue'],
   darkMode: false, // or 'media' or 'class'
   theme: {
+    screens:{
+      '2xl': '1536px',
+      '3xl': '1920px',
+    },
     extend: {
       backgroundImage: {
         'system': "url('../assets/systems.svg')",

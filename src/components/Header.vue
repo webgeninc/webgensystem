@@ -12,26 +12,32 @@
                             class="flex justify-center items-center overflow-hidden cursor-default select-none m-1"
                         >
                             <div
-                                class="flex justify-center items-center rounded-full overflow-hidden"
+                                class="flex justify-center items-center rounded-full overflow-hidden w-full"
                             >
                                 <img
-                                    src="../assets/logo_wims_svg.svg"
+                                    src="../assets/logo_circle.svg"
                                     alt="WIMS"
                                     draggable="false"
-                                    class="cursor-default select-none p-1 pr-4 pl-4 font-montserrat"
+                                    class="cursor-default select-none p-1 pr-0 pl-0 font-montserrat w-1/3"
                                 />
+                                <div class="pl-2">
+                                    <p
+                                        class="text-sm 2xl:text-base 3xl:text-lg 3xl:tracking-widest tracking-normal font-medium"
+                                    >WEBGENETICSS</p>
+                                    <p class="text-sm 2xl:text-lg tracking-wider font-bold">WIMS</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="flex w-full flex-row justify-between items-center p-1 flex-wrap">
                         <p
-                            class="text-gray-800 font-medium text-xs 2xl:text-sm text-center tracking-widest cursor-default select-none p-0.5"
+                            class="text-gray-800 font-medium text-2xs 2xl:text-xs 3xl:text-sm text-center tracking-widest cursor-default select-none p-0.5"
                         >{{ day }}</p>
                         <p
-                            class="text-gray-800 font-medium text-xs 2xl:text-sm text-center tracking-widest cursor-default select-none p-0.5"
+                            class="text-gray-800 font-medium text-2xs 2xl:text-xs 3xl:text-sm text-center tracking-widest cursor-default select-none p-0.5"
                         >{{ time }}</p>
                         <p
-                            class="text-gray-800 font-medium text-xs 2xl:text-sm text-center tracking-widest cursor-default select-none p-0.5"
+                            class="text-gray-800 font-medium text-2xs 2xl:text-xs 3xl:text-sm text-center tracking-widest cursor-default select-none p-0.5"
                         >{{ date }}</p>
                     </div>
                 </div>
