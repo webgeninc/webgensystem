@@ -402,7 +402,7 @@ export default {
 
 
         // KALENDARZ
-
+        console.log("gotowe")
 
         const months = ref([
             "STYCZEŃ",
