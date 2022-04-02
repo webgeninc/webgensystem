@@ -543,7 +543,15 @@ export default {
             if (caldayOfWeek.value == 0) {
                 caldayOfWeek.value = 7
             }
+            for (let i = 1; i <= lastDayofMonth.value; i++) {
+                if (i < 10) {
+                    i = "0" + i
+                }
 
+                calDaysInMonth.value.push(now.getFullYear() + "-" + (now.getMonth() < 9 ? ("0" + ((now.getMonth()) + 1)) : ((now.getMonth()) + 1)) + "-" + i);
+
+
+            }
             for (let j = caldayOfWeek.value - 2; j > -1; j--) {
                 calPrevDaysInMonth.value.push(prevLastDayofMonth.value - j);
             }
@@ -568,15 +576,7 @@ export default {
 
 
 
-            for (let i = 1; i <= lastDayofMonth.value; i++) {
-                if (i < 10) {
-                    i = "0" + i
-                }
 
-                calDaysInMonth.value.push(now.getFullYear() + "-" + (now.getMonth() < 9 ? ("0" + ((now.getMonth()) + 1)) : ((now.getMonth()) + 1)) + "-" + i);
-
-
-            }
             dataLoaded.value = true;
         }
 
