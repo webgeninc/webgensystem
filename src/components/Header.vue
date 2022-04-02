@@ -86,38 +86,124 @@
                     <div class="w-1/7 flex justify-center items-center">SOB</div>
                     <div class="text-red-700 w-1/7 flex justify-center items-center">NDZ</div>
                 </div>
-                <div class="flex flex-wrap p-2 w-full text-xs 2xl:text-sm">
-                    <div
-                        v-for="(day, index) in calPrevDaysInMonth"
-                        :key="index"
-                        class="opacity-50 font-light w-1/7 2xl:h-12 h-8 flex justify-center items-center"
-                    >
-                        <span
-                            class="flex justify-center items-center cursor-pointer transition rounded-md hover:bg-gray-300 w-11/12 h-5/6"
-                        >{{ day }}</span>
-                    </div>
-                    <div
-                        v-for="(day, index) in calDaysInMonth"
-                        :key="index"
-                        class="w-1/7 2xl:h-12 h-8 flex justify-center items-center"
-                    >
+                <div v-if="dataLoaded" class="flex">
+                    <div class="flex flex-wrap p-2 w-full text-xs 2xl:text-sm">
                         <div
-                            v-if="yearWithMonth === reallyNow && day === reallyNowDay"
-                            class="flex justify-center items-center cursor-pointer transition border-2 border-webgencol rounded-md w-11/12 h-5/6 hover:text-gray-100 hover:bg-webgencol hover:border-0"
-                        >{{ day }}</div>
+                            v-for="(day, index) in calPrevDaysInMonth"
+                            :key="index"
+                            class="opacity-50 font-light w-1/7 2xl:h-12 h-8 flex justify-center items-center"
+                        >
+                            <div
+                                class="flex flex-col justify-center items-center cursor-pointer transition rounded-md hover:bg-gray-300 w-98/100 h-9/10"
+                            >
+                                <span class="mb-2">
+                                    {{
+                                        day
+                                    }}
+                                </span>
+                            </div>
+                        </div>
                         <div
-                            v-else
-                            class="flex justify-center items-center cursor-pointer transition rounded-md hover:bg-gray-300 w-11/12 h-5/6"
-                        >{{ day }}</div>
-                    </div>
-                    <div
-                        v-for="(day, index) in calNextDaysInMonth"
-                        :key="index"
-                        class="opacity-50 font-light w-1/7 2xl:h-12 h-8 flex justify-center items-center"
-                    >
-                        <span
-                            class="flex justify-center items-center cursor-pointer transition rounded-md hover:bg-gray-300 w-11/12 h-5/6"
-                        >{{ day }}</span>
+                            v-for="(day, index) in calDaysInMonth"
+                            :key="index"
+                            class="w-1/7 2xl:h-12 h-8 flex justify-center items-center"
+                        >
+                            <div
+                                v-if="(yearWithMonth === reallyNow) && (day.charAt(8) + day.charAt(9)) == reallyNowDay"
+                                class="flex justify-center items-center cursor-pointer transition flex-col font-bold text-webgencol rounded-md w-98/100 h-9/10 hover:text-gray-100 hover:bg-gray-300"
+                            >
+                                <div class="text-base">✔️</div>
+                                <div
+                                    class="flex flex-row flex-wrap m-1.5 mb-2 mt-0 justify-start items-end overflow-hidden"
+                                >
+                                    <div
+                                        v-for="(taskd, inde) in  dataTasks"
+                                        :key="inde"
+                                        class="flex flex-row"
+                                    >
+                                        <div
+                                            v-if="(taskd.task_date === day & taskd.task_color === 1)"
+                                            class="h-0.5 w-2 rounded-full bg-gray-400 m-px text-2xs"
+                                        ></div>
+                                        <div
+                                            v-else-if="(taskd.task_date === day & taskd.task_color === 2)"
+                                            class="h-0.5 w-2 rounded-full bg-red-600 m-px text-2xs"
+                                        ></div>
+                                        <div
+                                            v-else-if="(taskd.task_date === day & taskd.task_color === 3)"
+                                            class="h-0.5 w-2 rounded-full bg-yellow-600 m-px text-2xs"
+                                        ></div>
+                                        <div
+                                            v-else-if="(taskd.task_date === day & taskd.task_color === 4)"
+                                            class="h-0.5 w-2 rounded-full bg-purple-600 m-px text-2xs"
+                                        ></div>
+                                        <div
+                                            v-else-if="(taskd.task_date === day & taskd.task_color === 5)"
+                                            class="h-0.5 w-2 rounded-full bg-blue-600 m-px text-2xs"
+                                        ></div>
+                                        <div
+                                            v-else-if="(taskd.task_date === day & taskd.task_color === 6)"
+                                            class="h-0.5 w-2 rounded-full bg-green-400 m-px text-2xs"
+                                        ></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                v-else
+                                class="flex justify-center items-center flex-col cursor-pointer transition rounded-md hover:bg-gray-300 w-98/100 h-9/10"
+                            >
+                                <div class>{{ day.charAt(8) + day.charAt(9) }}</div>
+                                <div
+                                    class="flex flex-row flex-wrap m-1.5 mb-2 mt-0 justify-start items-end overflow-hidden"
+                                >
+                                    <div
+                                        v-for="(taskd, inde) in  dataTasks"
+                                        :key="inde"
+                                        class="flex flex-row"
+                                    >
+                                        <div
+                                            v-if="(taskd.task_date === day & taskd.task_color === 1)"
+                                            class="h-0.5 w-2 rounded-full bg-gray-400 m-px text-2xs"
+                                        ></div>
+                                        <div
+                                            v-else-if="(taskd.task_date === day & taskd.task_color === 2)"
+                                            class="h-0.5 w-2 rounded-full bg-red-600 m-px text-2xs"
+                                        ></div>
+                                        <div
+                                            v-else-if="(taskd.task_date === day & taskd.task_color === 3)"
+                                            class="h-0.5 w-2 rounded-full bg-yellow-600 m-px text-2xs"
+                                        ></div>
+                                        <div
+                                            v-else-if="(taskd.task_date === day & taskd.task_color === 4)"
+                                            class="h-0.5 w-2 rounded-full bg-purple-600 m-px text-2xs"
+                                        ></div>
+                                        <div
+                                            v-else-if="(taskd.task_date === day & taskd.task_color === 5)"
+                                            class="h-0.5 w-2 rounded-full bg-blue-600 m-px text-2xs"
+                                        ></div>
+                                        <div
+                                            v-else-if="(taskd.task_date === day & taskd.task_color === 6)"
+                                            class="h-0.5 w-2 rounded-full bg-green-400 m-px text-2xs"
+                                        ></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            v-for="(day, index) in calNextDaysInMonth"
+                            :key="index"
+                            class="opacity-50 font-light w-1/7 2xl:h-12 h-8 flex justify-center items-center"
+                        >
+                            <div
+                                class="flex justify-center flex-col items-center cursor-pointer transition rounded-md hover:bg-gray-300 w-98/100 h-9/10"
+                            >
+                                <span class="mb-2">
+                                    {{
+                                        day
+                                    }}
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -248,38 +334,44 @@
                         <div class="flex m-1">
                             <div class="p-1 bg-gray-400 rounded-full ml-1 mr-1 hover:opacity-70"></div>
                             <p class="text-justify ml-2 text-xs tracking-normal">
-                                <span class="font-medium tracking-wider">ZADANIE</span> Tą etykiete posiadają zwykłe zadania, nie posiadające cech unikalnych.
+                                <span class="font-medium tracking-wider">ZADANIE</span> Tą etykiete posiadają zwykłe
+                                zadania, nie posiadające cech unikalnych.
                             </p>
                         </div>
                         <div class="flex m-1">
                             <div class="p-1 bg-red-600 rounded-full ml-1 mr-1 hover:opacity-70"></div>
                             <p class="text-justify ml-2 text-xs tracking-normal">
-                                <span class="font-medium tracking-wider">STOP</span> Dodajemy tą etykiete do zadania, które posiada błąd, lub problem, którego nie możemy rozwiązać.
+                                <span class="font-medium tracking-wider">STOP</span> Dodajemy tą etykiete do zadania,
+                                które posiada błąd, lub problem, którego nie możemy rozwiązać.
                             </p>
                         </div>
                         <div class="flex m-1">
                             <div class="p-1 bg-yellow-600 rounded-full ml-1 mr-1 hover:opacity-70"></div>
                             <p class="text-justify ml-2 text-xs tracking-normal">
-                                <span class="font-medium tracking-wider">WERYFIKACJA</span> Dodajemy tą etykiete, kiedy prosimy o sprawdzenie błędów, czy zgody w decyzyjności wspólnej.
+                                <span class="font-medium tracking-wider">WERYFIKACJA</span> Dodajemy tą etykiete, kiedy
+                                prosimy o sprawdzenie błędów, czy zgody w decyzyjności wspólnej.
                             </p>
                         </div>
                         <div class="flex m-1">
                             <div class="p-1 bg-purple-500 rounded-full ml-1 mr-1 hover:opacity-70"></div>
                             <p class="text-justify ml-2 text-xs tracking-normal">
-                                <span class="font-medium tracking-wider">AKTUALIZACJA</span> Dodajemy tą etykiete, gdy chcemy, by reszta grupy zapoznała się z tą zmianą.
+                                <span class="font-medium tracking-wider">AKTUALIZACJA</span> Dodajemy tą etykiete, gdy
+                                chcemy, by reszta grupy zapoznała się z tą zmianą.
                             </p>
                         </div>
                         <div class="flex m-1">
                             <div class="p-1 bg-blue-500 rounded-full ml-1 mr-1 hover:opacity-70"></div>
                             <p class="text-justify ml-2 text-xs tracking-normal">
-                                <span class="font-medium tracking-wider">ROZPOCZĘTO</span> Tą etykietą oznaczamy zadania, które mają status aktywny.
+                                <span class="font-medium tracking-wider">ROZPOCZĘTO</span> Tą etykietą oznaczamy
+                                zadania, które mają status aktywny.
                             </p>
                         </div>
                         <div class="flex m-1">
                             <div class="p-1 bg-green-500 rounded-full ml-1 mr-1 hover:opacity-70"></div>
                             <p class="text-justify ml-2 text-xs tracking-normal">
                                 <span class="font-medium tracking-wider">ZROBIONE</span>
-                                Tą etykiete dodajemy na koniec, by oznaczyć zadanie jako zrobione lub zrobione i sprawdzone.
+                                Tą etykiete dodajemy na koniec, by oznaczyć zadanie jako zrobione lub zrobione i
+                                sprawdzone.
                             </p>
                         </div>
                     </div>
@@ -302,9 +394,11 @@
                 <p
                     class="text-webgencol font-light text-xs text-right tracking-wider"
                 >{{ user.aud }}</p>
-                <p
-                    class="text-gray-300 font-light text-xs text-right tracking-wider mt-1"
-                >ostatnio zalogowany - {{ user.last_sign_in_at }}</p>
+                <p class="text-gray-300 font-light text-xs text-right tracking-wider mt-1">
+                    ostatnio zalogowany - {{
+                        user.last_sign_in_at
+                    }}
+                </p>
                 <p class="text-gray-300 font-light text-xs text-right tracking-wide mt-2">
                     <span class="font-medium tracking-widest">WIMS</span> 0.6.12
                 </p>
@@ -353,7 +447,7 @@ export default {
         const FirmNotification = ref(null);
         const PitNotification = ref(null);
         const MonthOfYear = ref(null);
-
+        const dataLoaded = ref(null);
         let now = new Date();
         const reallyNow = ref(now.getUTCFullYear() + "" + now.getUTCMonth())
         const reallyNowDay = ref(now.getUTCDate())
@@ -419,7 +513,6 @@ export default {
         ])
 
 
-
         const lastDayofMonth = ref(new Date(now.getUTCFullYear(), now.getMonth() + 1, 0).getDate());
         const prevLastDayofMonth = ref(new Date(now.getUTCFullYear(), now.getMonth(), 0).getDate());
         let calMonth = ref(months.value[monthOfDate.value])
@@ -431,39 +524,65 @@ export default {
         now.setDate(1);
         let caldayOfWeek = ref(now.getUTCDay());
 
-        if (caldayOfWeek.value == 0) {
-            caldayOfWeek.value = 7
-        }
-
-
-
-        for (let j = caldayOfWeek.value - 2; j > -1; j--) {
-            calPrevDaysInMonth.value.push(prevLastDayofMonth.value - j);
-        }
-
-
-
-        for (let i = 1; i <= lastDayofMonth.value; i++) {
-            calDaysInMonth.value.push(i);
-
-        }
-
-
         let calNextDaysInMonth = ref([]);
 
-        if (calPrevDaysInMonth.value.length + calDaysInMonth.value.length < 35) {
-            for (let x = 1; x <= 14 - (calLastDayOfWeek.value); x++) {
-                calNextDaysInMonth.value.push(x);
-            }
-        }
-        else {
-            for (let x = 1; x <= 7 - (calLastDayOfWeek.value); x++) {
-                calNextDaysInMonth.value.push(x);
-
-            }
-
-        }
         let yearWithMonth = ref(yearNow.value + "" + monthOfDate.value);
+
+
+
+        const getDataTasksForDays = () => {
+            calDaysInMonth.value = [];
+            calPrevDaysInMonth.value = [];
+
+
+            lastDayofMonth.value = new Date(now.getUTCFullYear(), now.getMonth() + 1, 0).getDate();
+            prevLastDayofMonth.value = new Date(now.getUTCFullYear(), now.getMonth(), 0).getDate()
+
+            calMonth.value = months.value[monthOfDate.value];
+            calLastDayOfWeek.value = new Date(now.getUTCFullYear(), now.getMonth() + 1, 0).getDay();
+            if (caldayOfWeek.value == 0) {
+                caldayOfWeek.value = 7
+            }
+
+            for (let j = caldayOfWeek.value - 2; j > -1; j--) {
+                calPrevDaysInMonth.value.push(prevLastDayofMonth.value - j);
+            }
+
+            calNextDaysInMonth.value = [];
+
+            if (calPrevDaysInMonth.value.length + calDaysInMonth.value.length < 35) {
+                for (let x = 1; x <= 14 - (calLastDayOfWeek.value); x++) {
+                    calNextDaysInMonth.value.push(x);
+                }
+            }
+            else {
+                for (let x = 1; x <= 7 - (calLastDayOfWeek.value); x++) {
+                    calNextDaysInMonth.value.push(x);
+
+                }
+
+            }
+            yearWithMonth.value = yearNow.value + "" + monthOfDate.value;
+
+
+
+
+
+            for (let i = 1; i <= lastDayofMonth.value; i++) {
+                if (i < 10) {
+                    i = "0" + i
+                }
+
+                calDaysInMonth.value.push(now.getFullYear() + "-" + (now.getMonth() < 9 ? ("0" + ((now.getMonth()) + 1)) : ((now.getMonth()) + 1)) + "-" + i);
+
+
+            }
+            dataLoaded.value = true;
+        }
+
+
+
+
 
         // FUUUUNKKCJA
         const prevMonth = () => {
@@ -500,9 +619,11 @@ export default {
 
 
             for (let i = 1; i <= lastDayofMonth.value; i++) {
-                calDaysInMonth.value.push(i);
+                if (i < 10) {
+                    i = "0" + i
+                }
+                calDaysInMonth.value.push(now.getFullYear() + "-" + (now.getMonth() < 9 ? ("0" + ((now.getMonth()) + 1)) : ((now.getMonth()) + 1)) + "-" + i);
             }
-
             calNextDaysInMonth.value = [];
 
             if (calPrevDaysInMonth.value.length + calDaysInMonth.value.length < 35) {
@@ -554,7 +675,10 @@ export default {
 
 
             for (let i = 1; i <= lastDayofMonth.value; i++) {
-                calDaysInMonth.value.push(i);
+                if (i < 10) {
+                    i = "0" + i
+                }
+                calDaysInMonth.value.push(now.getFullYear() + "-" + (now.getMonth() < 9 ? ("0" + ((now.getMonth()) + 1)) : ((now.getMonth()) + 1)) + "-" + i);
             }
 
             calNextDaysInMonth.value = [];
@@ -598,6 +722,8 @@ export default {
                 const subs = supabase
                     .from('*')
                     .on('*', () => {
+                        calPrevDaysInMonth.value = [];
+                        calNextDaysInMonth.value = [];
                         setTimeout(() => {
                             getData();
                         }, 500)
@@ -617,6 +743,8 @@ export default {
 
 
         const getData = async () => {
+            dataLoaded.value = false;
+
             try {
                 const { data: notes_table, error_notes } = await supabase.from('notes_table').select('*').order('created_at', { ascending: false });
                 const { data: tasks_table, error_task } = await supabase.from('tasks_table').select('*').order('task_date', { ascending: true });
@@ -624,11 +752,12 @@ export default {
                 dataNotes.value = notes_table;
                 if (error_task) throw error_task;
                 dataTasks.value = tasks_table;
+
             } catch (error) {
                 console.warn(error.message);
             }
 
-
+            getDataTasksForDays();
 
         };
 
@@ -637,6 +766,8 @@ export default {
         setInterval(() => {
             checkData()
         }, 2000)
+
+
 
         const deleteNote = async (noteID) => {
             try {
@@ -685,7 +816,7 @@ export default {
 
 
 
-        return { dataTasks, noteNote, pushNote, notesCreateClose, notesCreateForm, notesCreateOpen, deleteNote, dataNotes, helpTabOpen, notesTabOpen, helpTabOpeningFunction, helpTabClosingFunction, notesTabOpeningFunction, notesTabClosingFunction, reallyNowDay, yearWithMonth, logout, reallyNow, user, FirmNotification, PitNotification, dayOfDate, monthOfDate, MonthOfYear, calMonth, calDaysInMonth, calPrevDaysInMonth, calNextDaysInMonth, prevMonth, nextMonth, yearNow }
+        return { dataLoaded, dataTasks, noteNote, pushNote, notesCreateClose, notesCreateForm, notesCreateOpen, deleteNote, dataNotes, helpTabOpen, notesTabOpen, helpTabOpeningFunction, helpTabClosingFunction, notesTabOpeningFunction, notesTabClosingFunction, reallyNowDay, yearWithMonth, logout, reallyNow, user, FirmNotification, PitNotification, dayOfDate, monthOfDate, MonthOfYear, calMonth, calDaysInMonth, calPrevDaysInMonth, calNextDaysInMonth, prevMonth, nextMonth, yearNow }
     },
     methods: {
         focusNote() {

@@ -495,6 +495,8 @@ export default {
                 try {
                     const { error } = await supabase.from('tabs_table').delete().eq("id", tabID)
                     if (error) throw error;
+                    const { error2 } = await supabase.from('tasks_table').delete().eq("task_tabid", tabID)
+                    if (error2) throw error2;
                 } catch (error) {
                     console.warn(error.message);
                 }
