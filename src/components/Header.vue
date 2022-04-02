@@ -596,7 +596,7 @@ export default {
         const checkData = async () => {
             try {
                 const subs = supabase
-                    .from('notes_table')
+                    .from('*')
                     .on('*', () => {
                         setTimeout(() => {
                             getData();
@@ -605,7 +605,7 @@ export default {
                     })
                     .subscribe()
                 return () => supabase.removeSubscription(subs);
-                // checkDayStatus()
+
             } catch (error) {
                 console.warn(error.message);
             }
@@ -613,18 +613,22 @@ export default {
 
 
         const dataNotes = ref([]);
+        const dataTasks = ref([]);
 
 
         const getData = async () => {
             try {
-                const { data: notes_table, error_task } = await supabase.from('notes_table').select('*').order('created_at', { ascending: false });
-                if (error_task) throw error_task;
+                const { data: notes_table, error_notes } = await supabase.from('notes_table').select('*').order('created_at', { ascending: false });
+                const { data: tasks_table, error_task } = await supabase.from('tasks_table').select('*').order('task_date', { ascending: true });
+                if (error_notes) throw error_task;
                 dataNotes.value = notes_table;
+                if (error_task) throw error_task;
+                dataTasks.value = tasks_table;
             } catch (error) {
                 console.warn(error.message);
             }
 
-            // checkDayStatus()
+
 
         };
 
@@ -677,27 +681,11 @@ export default {
             noteNote.value = null;
         }
 
-        // const checkDayStatus = () => {
-        //     console.log("tera" + now.getMonth());
-        //     console.log(dataTasks.value[0].task_date);
-
-        //     for (let i = 0; i < dataTasks.value; i++) {
-        //         if (dataTasks.value[0].task_date === `2022-03-30`) {
-
-        //             console.log("razzzz");
-
-        //         }
-        //         console.log(dataTasks.value[i].task_date);
-
-        //     }
-
-        // }
 
 
 
 
-
-        return { noteNote, pushNote, notesCreateClose, notesCreateForm, notesCreateOpen, deleteNote, dataNotes, helpTabOpen, notesTabOpen, helpTabOpeningFunction, helpTabClosingFunction, notesTabOpeningFunction, notesTabClosingFunction, reallyNowDay, yearWithMonth, logout, reallyNow, user, FirmNotification, PitNotification, dayOfDate, monthOfDate, MonthOfYear, calMonth, calDaysInMonth, calPrevDaysInMonth, calNextDaysInMonth, prevMonth, nextMonth, yearNow }
+        return { dataTasks, noteNote, pushNote, notesCreateClose, notesCreateForm, notesCreateOpen, deleteNote, dataNotes, helpTabOpen, notesTabOpen, helpTabOpeningFunction, helpTabClosingFunction, notesTabOpeningFunction, notesTabClosingFunction, reallyNowDay, yearWithMonth, logout, reallyNow, user, FirmNotification, PitNotification, dayOfDate, monthOfDate, MonthOfYear, calMonth, calDaysInMonth, calPrevDaysInMonth, calNextDaysInMonth, prevMonth, nextMonth, yearNow }
     },
     methods: {
         focusNote() {
