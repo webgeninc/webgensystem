@@ -32,7 +32,7 @@
                 <input
                     ref="tabka"
                     autocomplete="off"
-                    maxlength="50"
+                    maxlength="45"
                     required
                     v-model="tabName"
                     type="text"
@@ -52,7 +52,7 @@
             </div>
             <div
                 data-dragscroll
-                class="p-1 pt-1 text-center flex flex-row justify-center items-center cursor-grab"
+                class="p-1 pt-1 text-center flex flex-row justify-center items-center cursor-grab h-16"
             >
                 <h3
                     data-dragscroll
