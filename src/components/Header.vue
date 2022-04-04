@@ -18,34 +18,36 @@
                                     src="../assets/logo_circle.svg"
                                     alt="WIMS"
                                     draggable="false"
-                                    class="cursor-default select-none p-1 pr-0 pl-0 font-montserrat w-1/3"
+                                    class="cursor-default select-none p-1 pr-0 pl-0 font-montserrat w-1/4"
                                 />
-                                <div class="pl-2">
+                                <div class="pl-4">
                                     <p
-                                        class="text-sm 2xl:text-base 3xl:text-lg 3xl:tracking-widest tracking-normal font-medium"
+                                        class="text-xs 2xl:text-sm 3xl:text-base 3xl:tracking-widest tracking-normal font-medium"
                                     >WEBGENETICSS</p>
-                                    <p class="text-sm 2xl:text-lg tracking-wider font-bold">WIMS</p>
+                                    <p class="text-xs 2xl:text-sm tracking-wider font-bold">WIMS</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="flex w-full flex-row justify-between items-center p-1 flex-wrap">
+                    <div class="flex w-full flex-col justify-start items-start p-1 flex-wrap">
                         <p
-                            class="text-gray-800 font-medium text-2xs 2xl:text-xs 3xl:text-sm text-center tracking-widest cursor-default select-none p-0.5"
-                        >{{ day }}</p>
-                        <p
-                            class="text-gray-800 font-medium text-2xs 2xl:text-xs 3xl:text-sm text-center tracking-widest cursor-default select-none p-0.5"
+                            class="text-gray-800 font-medium text-2xs 2xl:text-xs 3xl:text-sm tracking-widest cursor-default select-none p-0.5"
                         >{{ time }}</p>
-                        <p
-                            class="text-gray-800 font-medium text-2xs 2xl:text-xs 3xl:text-sm text-center tracking-widest cursor-default select-none p-0.5"
-                        >{{ date }}</p>
+                        <div class="flex flex-row justify-between items-center w-full">
+                            <p
+                                class="text-gray-800 font-medium text-2xs 2xl:text-xs 3xl:text-sm text-center tracking-widest cursor-default select-none p-0.5"
+                            >{{ day }}</p>
+                            <p
+                                class="text-gray-800 font-medium text-2xs 2xl:text-xs 3xl:text-sm text-center tracking-widest cursor-default select-none p-0.5"
+                            >{{ date }}</p>
+                        </div>
                     </div>
                 </div>
                 <div class="h-px w-11/12 bg-gray-300 m-1"></div>
                 <div class="p-2 pr-4 pl-4 flex justify-end flex-col">
                     <div v-if="FirmNotification" class="flex justify-center items-center">
                         <p
-                            class="text-gray-800 font-semibold text-xs 2xl:text-sm text-center tracking-widest cursor-default select-none"
+                            class="text-gray-800 font-semibold text-2xs 2xl:text-xs 3xl:text-sm text-center tracking-widest cursor-default select-none"
                         >
                             Jest
                             <span class="font-normal border-b border-gray-500">{{ dayOfDate }}</span>
@@ -329,53 +331,77 @@
                 v-if="helpTabOpen === true"
                 class="transition flex flex-col justify-end items-end flex-grow w-full p-2 mt-3 cursor-default select-none"
             >
-                <div class="text-gray-300 font-light text-xs text-center tracking-wide mb-1">
+                <div
+                    class="text-gray-300 font-light text-2xs 2xl:text-xs 3xl:text-sm text-center tracking-wide mb-1"
+                >
                     <div class="flex flex-col justify-evenly items-start flex-wrap m-0.5 mb-2">
-                        <div class="flex m-1">
-                            <div class="p-1 bg-gray-400 rounded-full ml-1 mr-1 hover:opacity-70"></div>
-                            <p class="text-justify ml-2 text-xs tracking-normal">
+                        <div class="flex m-0.5 2xl:m-1">
+                            <div
+                                class="p-1 bg-gray-400 rounded-full ml-0.5 mr-0.5 hover:opacity-70"
+                            ></div>
+                            <p
+                                class="text-justify ml-2 text-2xs 2xl:text-xs 3xl:text-xs tracking-normal"
+                            >
                                 <span class="font-medium tracking-wider">ZADANIE</span> Tą etykiete posiadają zwykłe
                                 zadania, nie posiadające cech unikalnych.
                             </p>
                         </div>
-                        <div class="flex m-1">
-                            <div class="p-1 bg-red-600 rounded-full ml-1 mr-1 hover:opacity-70"></div>
-                            <p class="text-justify ml-2 text-xs tracking-normal">
+                        <div class="flex m-0.5 2xl:m-1">
+                            <div class="p-1 bg-red-600 rounded-full ml-0.5 mr-0.5 hover:opacity-70"></div>
+                            <p
+                                class="text-justify ml-2 text-2xs 2xl:text-xs 3xl:text-xs tracking-normal"
+                            >
                                 <span class="font-medium tracking-wider">STOP</span> Dodajemy tą etykiete do zadania,
                                 które posiada błąd, lub problem, którego nie możemy rozwiązać.
                             </p>
                         </div>
-                        <div class="flex m-1">
-                            <div class="p-1 bg-yellow-600 rounded-full ml-1 mr-1 hover:opacity-70"></div>
-                            <p class="text-justify ml-2 text-xs tracking-normal">
+                        <div class="flex m-0.5 2xl:m-1">
+                            <div
+                                class="p-1 bg-yellow-600 rounded-full ml-0.5 mr-0.5 hover:opacity-70"
+                            ></div>
+                            <p
+                                class="text-justify ml-2 text-2xs 2xl:text-xs 3xl:text-xs tracking-normal"
+                            >
                                 <span class="font-medium tracking-wider">WERYFIKACJA</span> Dodajemy tą etykiete, kiedy
                                 prosimy o sprawdzenie błędów, czy zgody w decyzyjności wspólnej.
                             </p>
                         </div>
-                        <div class="flex m-1">
-                            <div class="p-1 bg-purple-500 rounded-full ml-1 mr-1 hover:opacity-70"></div>
-                            <p class="text-justify ml-2 text-xs tracking-normal">
+                        <div class="flex m-0.5 2xl:m-1">
+                            <div
+                                class="p-1 bg-purple-500 rounded-full ml-0.5 mr-0.5 hover:opacity-70"
+                            ></div>
+                            <p
+                                class="text-justify ml-2 text-2xs 2xl:text-xs 3xl:text-xs tracking-normal"
+                            >
                                 <span class="font-medium tracking-wider">AKTUALIZACJA</span> Dodajemy tą etykiete, gdy
                                 chcemy, by reszta grupy zapoznała się z tą zmianą.
                             </p>
                         </div>
-                        <div class="flex m-1">
-                            <div class="p-1 bg-blue-500 rounded-full ml-1 mr-1 hover:opacity-70"></div>
-                            <p class="text-justify ml-2 text-xs tracking-normal">
+                        <div class="flex m-0.5 2xl:m-1">
+                            <div
+                                class="p-1 bg-blue-500 rounded-full ml-0.5 mr-0.5 hover:opacity-70"
+                            ></div>
+                            <p
+                                class="text-justify ml-2 text-2xs 2xl:text-xs 3xl:text-xs tracking-normal"
+                            >
                                 <span class="font-medium tracking-wider">ROZPOCZĘTO</span> Tą etykietą oznaczamy
                                 zadania, które mają status aktywny.
                             </p>
                         </div>
-                        <div class="flex m-1">
-                            <div class="p-1 bg-green-500 rounded-full ml-1 mr-1 hover:opacity-70"></div>
-                            <p class="text-justify ml-2 text-xs tracking-normal">
+                        <div class="flex m-0.5 2xl:m-1">
+                            <div
+                                class="p-1 bg-green-500 rounded-full ml-0.5 mr-0.5 hover:opacity-70"
+                            ></div>
+                            <p
+                                class="text-justify ml-2 text-2xs 2xl:text-xs 3xl:text-xs tracking-normal"
+                            >
                                 <span class="font-medium tracking-wider">ZROBIONE</span>
                                 Tą etykiete dodajemy na koniec, by oznaczyć zadanie jako zrobione lub zrobione i
                                 sprawdzone.
                             </p>
                         </div>
                     </div>
-                    <p class="p-1 pb-0 text-xs">
+                    <p class="p-1 pb-0 text-3xs 2xl:text-xs 3xl:text-sm">
                         <span
                             class="border-gray-200 font-semibold p-1 text-2xs"
                         >shift + scroll myszką</span> lub
@@ -388,21 +414,22 @@
                 <div class="h-px w-full bg-gray-400 mt-2 mb-2"></div>
                 <p
                     @click="helpTabClosingFunction"
-                    class="border p-0.5 pr-3 pl-3 mb-2 rounded-sm text-gray-100 hover:text-gray-50 bg-gray-800 hover:bg-gray-700 text-right font-light text-2xs tracking-widest transition cursor-pointer select-none"
+                    class="border p-0.5 pr-3 pl-3 mb-2 rounded-sm text-gray-100 hover:text-gray-50 bg-gray-800 hover:bg-gray-700 text-right font-light text-3xs 2xl:text-xs tracking-widest transition cursor-pointer select-none"
                 >zamknij pomoc</p>
-                <p class="text-gray-300 font-light text-xs tracking-wider">{{ user.email }}</p>
                 <p
-                    class="text-webgencol font-light text-xs text-right tracking-wider"
+                    class="text-gray-300 font-light text-2xs 2xl:text-xs tracking-wider"
+                >{{ user.email }}</p>
+                <p
+                    class="text-webgencol font-light text-3xs 2xl:text-xs text-right tracking-wider"
                 >{{ user.aud }}</p>
-                <p class="text-gray-300 font-light text-xs text-right tracking-wider mt-1">
+                <p
+                    class="text-gray-300 font-light text-3xs 2xl:text-xs text-right tracking-wider mt-1"
+                >
                     ostatnio zalogowany - {{
                         user.last_sign_in_at
                     }}
                 </p>
-                <p class="text-gray-300 font-light text-xs text-right tracking-wide mt-2">
-                    <span class="font-medium tracking-widest">WIMS</span> 0.6.12
-                </p>
-                <p class="text-gray-300 font-light text-2xs text-right tracking-widest">
+                <p class="text-gray-300 font-light text-3xs 2xl:text-xs text-right tracking-widest">
                     <span class="font-medium tracking-wider">WEBGENETICSS</span> Interpolate Management System
                 </p>
             </div>
