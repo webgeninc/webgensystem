@@ -235,7 +235,7 @@
                     class="text-red-300 text-right font-light text-xs tracking-widest pb-2 pt-1 mb-2 transition cursor-pointer hover:text-opacity-70 select-none"
                 >Wyloguj się</p>
                 <p class="text-gray-300 font-light text-xs text-right tracking-wide">
-                    <span class="font-medium tracking-widest">WIMS</span> 0.6.12
+                    <span class="font-medium tracking-widest">WIMS</span> 0.7.20
                 </p>
                 <p class="text-gray-300 font-normal text-xs text-right tracking-wide">
                     ♻ CO2-FREE
@@ -321,7 +321,7 @@
                 </div>
 
                 <p class="text-gray-300 font-light text-xs text-right tracking-wide mt-2">
-                    <span class="font-medium tracking-widest">WIMS</span> 0.6.12
+                    <span class="font-medium tracking-widest">WIMS</span> 0.7.20
                 </p>
                 <p class="text-gray-300 font-light text-2xs text-right tracking-widest">
                     <span class="font-medium tracking-wider">WEBGENETICSS</span> Interpolate Management System

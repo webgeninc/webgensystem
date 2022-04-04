@@ -9,7 +9,7 @@
               <span class="tracking-normal">WEBGENETICSS</span> Interpolate
             </h2>
             <h2 class="text-right font-medium tracking-wider leading-5">Management System</h2>
-            <h2 class="text-right text-xs font-medium tracking-wide leading-4">WIMS 0.16.13</h2>
+            <h2 class="text-right text-xs font-medium tracking-wide leading-4">WIMS 0.7.20</h2>
             <p class="text-gray-600 font-normal text-xs text-right tracking-wide">
               ♻ CO2-FREE
               <span class="font-light tracking-widest text-2xs">for our planet</span>
