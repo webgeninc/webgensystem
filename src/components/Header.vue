@@ -71,15 +71,15 @@
                         class="h-7 w-7 cursor-pointer hover:opacity-50 transition select-none text-lg font-medium flex-1"
                     >&lt;</button>
                     <p
-                        class="text-base 2xl:text-lg font-medium mt-1 w-3/5 text-center tracking-wider cursor-default select-none"
+                        class="text-sm 2xl:text-base font-medium mt-1 w-3/5 text-center tracking-wider cursor-default select-none"
                     >{{ calMonth }} {{ yearNow }}</p>
                     <button
                         @click="nextMonth"
                         class="h-7 w-7 cursor-pointer hover:opacity-50 transition select-none text-lg flex-1 font-medium"
                     >></button>
                 </div>
-                <div class="bg-gray-500 w-10/12 h-px m-2 opacity-70"></div>
-                <div class="flex p-2 mt-2 pb-2 pt-5 w-full text-2xs font-semibold 2xl:text-xs">
+                <div class="bg-gray-500 w-10/12 h-px m-1 opacity-70"></div>
+                <div class="flex p-2 mt-1 pb-2 pt-5 w-full text-2xs font-semibold 2xl:text-xs">
                     <div class="w-1/7 flex justify-center items-center">PON</div>
                     <div class="w-1/7 flex justify-center items-center">WT</div>
                     <div class="w-1/7 flex justify-center items-center">ŚR</div>
@@ -112,7 +112,7 @@
                         >
                             <div
                                 v-if="(yearWithMonth === reallyNow) && (day.charAt(8) + day.charAt(9)) == reallyNowDay"
-                                class="flex justify-center items-center cursor-pointer transition flex-col font-bold text-webgencol rounded-md w-98/100 h-9/10 hover:text-gray-100 hover:bg-gray-300"
+                                class="flex justify-center items-center cursor-pointer transition flex-col rounded-md w-98/100 h-9/10 hover:text-gray-100 hover:bg-gray-300"
                             >
                                 <div class="text-base">✔️</div>
                                 <div
@@ -125,27 +125,27 @@
                                     >
                                         <div
                                             v-if="(taskd.task_date === day & taskd.task_color === 1)"
-                                            class="h-0.5 w-2 rounded-full bg-gray-400 m-px text-2xs"
+                                            class="h-0.75 w-2.5 rounded-full bg-gray-400 m-px text-2xs"
                                         ></div>
                                         <div
                                             v-else-if="(taskd.task_date === day & taskd.task_color === 2)"
-                                            class="h-0.5 w-2 rounded-full bg-red-600 m-px text-2xs"
+                                            class="h-0.75 w-2.5 rounded-full bg-red-600 m-px text-2xs"
                                         ></div>
                                         <div
                                             v-else-if="(taskd.task_date === day & taskd.task_color === 3)"
-                                            class="h-0.5 w-2 rounded-full bg-yellow-600 m-px text-2xs"
+                                            class="h-0.75 w-2.5 rounded-full bg-yellow-600 m-px text-2xs"
                                         ></div>
                                         <div
                                             v-else-if="(taskd.task_date === day & taskd.task_color === 4)"
-                                            class="h-0.5 w-2 rounded-full bg-purple-600 m-px text-2xs"
+                                            class="h-0.75 w-2.5 rounded-full bg-purple-600 m-px text-2xs"
                                         ></div>
                                         <div
                                             v-else-if="(taskd.task_date === day & taskd.task_color === 5)"
-                                            class="h-0.5 w-2 rounded-full bg-blue-600 m-px text-2xs"
+                                            class="h-0.75 w-2.5 rounded-full bg-blue-600 m-px text-2xs"
                                         ></div>
                                         <div
                                             v-else-if="(taskd.task_date === day & taskd.task_color === 6)"
-                                            class="h-0.5 w-2 rounded-full bg-green-400 m-px text-2xs"
+                                            class="h-0.75 w-2.5 rounded-full bg-green-400 m-px text-2xs"
                                         ></div>
                                     </div>
                                 </div>
@@ -156,36 +156,36 @@
                             >
                                 <div class>{{ day.charAt(8) + day.charAt(9) }}</div>
                                 <div
-                                    class="flex flex-row flex-wrap m-1.5 mb-2 mt-0 justify-start items-end overflow-hidden"
+                                    class="flex flex-row flex-wrap m-0.5 mb-2 mt-0 justify-start items-end overflow-hidden"
                                 >
                                     <div
                                         v-for="(taskd, inde) in  dataTasks"
                                         :key="inde"
-                                        class="flex flex-row"
+                                        class="flex flex-row overflow-hidden"
                                     >
                                         <div
                                             v-if="(taskd.task_date === day & taskd.task_color === 1)"
-                                            class="h-0.5 w-2 rounded-full bg-gray-400 m-px text-2xs"
+                                            class="h-0.75 w-2.5 rounded-full bg-gray-400 m-px text-2xs"
                                         ></div>
                                         <div
                                             v-else-if="(taskd.task_date === day & taskd.task_color === 2)"
-                                            class="h-0.5 w-2 rounded-full bg-red-600 m-px text-2xs"
+                                            class="h-0.75 w-2.5 rounded-full bg-red-600 m-px text-2xs"
                                         ></div>
                                         <div
                                             v-else-if="(taskd.task_date === day & taskd.task_color === 3)"
-                                            class="h-0.5 w-2 rounded-full bg-yellow-600 m-px text-2xs"
+                                            class="h-0.75 w-2.5 rounded-full bg-yellow-600 m-px text-2xs"
                                         ></div>
                                         <div
                                             v-else-if="(taskd.task_date === day & taskd.task_color === 4)"
-                                            class="h-0.5 w-2 rounded-full bg-purple-600 m-px text-2xs"
+                                            class="h-0.75 w-2.5 rounded-full bg-purple-600 m-px text-2xs"
                                         ></div>
                                         <div
                                             v-else-if="(taskd.task_date === day & taskd.task_color === 5)"
-                                            class="h-0.5 w-2 rounded-full bg-blue-600 m-px text-2xs"
+                                            class="h-0.75 w-2.5 rounded-full bg-blue-600 m-px text-2xs"
                                         ></div>
                                         <div
                                             v-else-if="(taskd.task_date === day & taskd.task_color === 6)"
-                                            class="h-0.5 w-2 rounded-full bg-green-400 m-px text-2xs"
+                                            class="h-0.75 w-2.5 rounded-full bg-green-400 m-px text-2xs"
                                         ></div>
                                     </div>
                                 </div>
