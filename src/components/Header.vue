@@ -2,10 +2,91 @@
     <div
         oncontextmenu="return false"
         v-if="user"
+        @mouseleave="closeCalTask()"
         class="bg-gradient-to-b from-gray-700 via-gray-700 to-gray-800 w-1/6 shadow-2xl flex flex-row justify-center font-montserrat border-l"
     >
         <div class="flex w-full flex-col items-center justify-start flex-wrap">
-            <div class="flex justify-around items-center flex-col p-1 mt-5 w-full bg-gray-100">
+            <div
+                v-if="currentCalTaskOpen === true"
+                class="bg-gray-200 w-full pb-1 shadow-md mt-5 h-1/5 overflow-x-hidden overflow-y-auto"
+            >
+                <div
+                    v-for="(caltask, iind) in currentCalTask"
+                    :key="iind"
+                    class="flex flex-col w-full m-0.5 border"
+                >
+                    <div class="flex flex-row w-full">
+                        <div
+                            v-if="(caltask.task_color === 3)"
+                            class="bg-yellow-600 w-3/4 text-3xs 2xl:text-2xs 3xl:text-xs text-white p-0.5 pl-2 font-medium"
+                        >DO WERYFIKACJI</div>
+                        <div
+                            v-else-if="(caltask.task_color === 5)"
+                            class="bg-blue-600 w-3/4 text-3xs 2xl:text-2xs 3xl:text-xs text-white p-0.5 pl-2"
+                        >W TRAKCIE REALIZACJI</div>
+                        <div
+                            v-else-if="(caltask.task_color === 2)"
+                            class="bg-red-600 w-3/4 text-3xs 2xl:text-2xs 3xl:text-xs text-white p-0.5 pl-2"
+                        >ZADANIE ZATRZYMANE</div>
+                        <div
+                            v-else-if="(caltask.task_color === 1)"
+                            class="bg-gray-400 w-3/4 text-3xs 2xl:text-2xs 3xl:text-xs text-white p-0.5 pl-2"
+                        >ZWYKŁE ZADANIE</div>
+                        <div
+                            v-else-if="(caltask.task_color === 6)"
+                            class="bg-green-600 w-3/4 text-3xs 2xl:text-2xs 3xl:text-xs text-white p-0.5 pl-2"
+                        >ZROBIONE ZADANIE</div>
+                        <div
+                            v-else-if="(caltask.task_color === 4)"
+                            class="bg-purple-600 w-3/4 text-3xs 2xl:text-2xs 3xl:text-xs text-white p-0.5 pl-2"
+                        >AKTUALIZACJA DLA GRUPY</div>
+                        <div
+                            class="bg-gray-600 text-3xs 2xl:text-2xs 3xl:text-xs flex-1 text-white p-0.5 pl-2 pr-2 font-medium flex justify-center items-center"
+                        >
+                            <p
+                                class="font-normal tracking-wider flex flex-wrap overflow-x-hidden uppercase"
+                            >{{ caltask.task_worker }}</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-row">
+                        <div class="flex flex-row justify-between items-end w-full">
+                            <div class="flex justify-start items-center mt-2">
+                                <p
+                                    class="text-2xs 2xl:text-xs 3xl:text-sm m-1 font-semibold flex flex-wrap overflow-x-hidden"
+                                >{{ caltask.task_name }}</p>
+                            </div>
+                            <div class="flex justify-end items-end">
+                                <p
+                                    v-if="Math.ceil((new Date(caltask.task_date.replace(/\./g, '/')) - new Date()) / 1000 / 60 / 60 / 24) < 0"
+                                    class="text-2xs 2xl:text-xs 3xl:text-xs m-1 mr-1 ml-1 font-medium flex flex-wrap justify-end items-end uppercase text-right"
+                                >
+                                    minęło
+                                    {{ Math.ceil(Math.abs(new Date(caltask.task_date.replace(/\./g, '/')) - new Date()) / 1000 / 60 / 60 / 24) - 1 }} dni temu
+                                </p>
+                                <p
+                                    v-else-if="Math.ceil((new Date(caltask.task_date.replace(/\./g, '/')) - new Date()) / 1000 / 60 / 60 / 24) == 0"
+                                    class="text-2xs 2xl:text-xs 3xl:text-xs m-1 mr-1 ml-1 font-medium flex flex-wrap justify-end items-end uppercase text-right"
+                                >do dzisiaj</p>
+                                <p
+                                    v-else-if="Math.ceil((new Date(caltask.task_date.replace(/\./g, '/')) - new Date()) / 1000 / 60 / 60 / 24) <= 7"
+                                    class="text-2xs 2xl:text-xs 3xl:text-xs m-1 mr-1 ml-1 font-medium flex flex-wrap justify-end items-end uppercase text-right"
+                                >{{ Math.ceil((new Date(caltask.task_date.replace(/\./g, '/')) - new Date()) / 1000 / 60 / 60 / 24) }} dni</p>
+                                <p
+                                    v-else-if="Math.ceil((new Date(caltask.task_date.replace(/\./g, '/')) - new Date()) / 1000 / 60 / 60 / 24) > 7"
+                                    class="text-2xs 2xl:text-xs 3xl:text-xs m-1 mr-1 ml-1 font-medium flex flex-wrap justify-end items-end uppercase text-right"
+                                >
+                                    jeszcze
+                                    {{ Math.ceil((new Date(caltask.task_date.replace(/\./g, '/')) - new Date()) / 1000 / 60 / 60 / 24) }} dni
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div
+                v-else
+                class="flex justify-around items-center flex-col p-1 mt-5 w-full bg-gray-100"
+            >
                 <div class="flex justify-around items-center flex-col w-full">
                     <div class="flex justify-center items-center">
                         <div
@@ -43,8 +124,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="h-px w-11/12 bg-gray-300 m-1"></div>
-                <div class="p-2 pr-4 pl-4 flex justify-end flex-col">
+                <div class="h-px w-11/12 bg-gray-300 m-0.5"></div>
+                <div class="p-2 pr-2 pl-2 flex justify-end flex-col">
                     <div v-if="FirmNotification" class="flex justify-center items-center">
                         <p
                             class="text-gray-800 font-semibold text-2xs 2xl:text-xs 3xl:text-sm text-center tracking-widest cursor-default select-none"
@@ -63,22 +144,27 @@
 
             <div
                 v-if="(helpTabOpen === false) && (notesTabOpen === false)"
-                class="flex flex-col justify-start items-center bg-gray-100 w-full 2xl:h-110 h-92 pt-3 pb-3"
+                class="flex flex-col justify-start items-center bg-gray-100 w-full 2xl:h-110 h-92 pt-1 pb-3"
             >
-                <div class="flex w-full h-14 flex-row justify-around items-center">
-                    <button
-                        @click="prevMonth"
-                        class="h-7 w-7 cursor-pointer hover:opacity-50 transition select-none text-lg font-medium flex-1"
-                    >&lt;</button>
-                    <p
-                        class="text-sm 2xl:text-base font-medium mt-1 w-3/5 text-center tracking-wider cursor-default select-none"
-                    >{{ calMonth }} {{ yearNow }}</p>
-                    <button
-                        @click="nextMonth"
-                        class="h-7 w-7 cursor-pointer hover:opacity-50 transition select-none text-lg flex-1 font-medium"
-                    >></button>
+                <div class="w-full relative">
+                    <div class="flex w-full h-14 flex-row justify-around items-center">
+                        <button
+                            @click="prevMonth"
+                            class="h-7 w-7 cursor-pointer hover:opacity-50 transition select-none text-lg font-medium flex-1"
+                        >&lt;</button>
+                        <p
+                            class="text-sm 2xl:text-base font-medium mt-1 w-3/5 text-center tracking-wider cursor-default select-none"
+                        >{{ calMonth }} {{ yearNow }}</p>
+                        <button
+                            @click="nextMonth"
+                            class="h-7 w-7 cursor-pointer hover:opacity-50 transition select-none text-lg flex-1 font-medium"
+                        >></button>
+                    </div>
                 </div>
-                <div class="bg-gray-500 w-10/12 h-px m-1 opacity-70"></div>
+                <div
+                    v-if="!currentCalTaskOpen === true"
+                    class="bg-gray-500 w-10/12 h-px m-1 opacity-70"
+                ></div>
                 <div class="flex p-2 mt-1 pb-2 pt-5 w-full text-2xs font-semibold 2xl:text-xs">
                     <div class="w-1/7 flex justify-center items-center">PON</div>
                     <div class="w-1/7 flex justify-center items-center">WT</div>
@@ -106,6 +192,7 @@
                             </div>
                         </div>
                         <div
+                            @click="showCalTask(day)"
                             v-for="(day, index) in calDaysInMonth"
                             :key="index"
                             class="w-1/7 2xl:h-12 h-8 flex justify-center items-center"
@@ -543,16 +630,13 @@ export default {
         const lastDayofMonth = ref(new Date(now.getUTCFullYear(), now.getMonth() + 1, 0).getDate());
         const prevLastDayofMonth = ref(new Date(now.getUTCFullYear(), now.getMonth(), 0).getDate());
         let calMonth = ref(months.value[monthOfDate.value])
-
         let calDaysInMonth = ref([]);
         let calPrevDaysInMonth = ref([]);
         const calLastDayOfWeek = ref(new Date(now.getUTCFullYear(), now.getMonth() + 1, 0).getDay());
-
         now.setDate(1);
+
         let caldayOfWeek = ref(now.getUTCDay());
-
         let calNextDaysInMonth = ref([]);
-
         let yearWithMonth = ref(yearNow.value + "" + monthOfDate.value);
 
 
@@ -560,16 +644,32 @@ export default {
         const getDataTasksForDays = () => {
             calDaysInMonth.value = [];
             calPrevDaysInMonth.value = [];
-
+            calNextDaysInMonth.value = [];
 
             lastDayofMonth.value = new Date(now.getUTCFullYear(), now.getMonth() + 1, 0).getDate();
             prevLastDayofMonth.value = new Date(now.getUTCFullYear(), now.getMonth(), 0).getDate()
-
             calMonth.value = months.value[monthOfDate.value];
             calLastDayOfWeek.value = new Date(now.getUTCFullYear(), now.getMonth() + 1, 0).getDay();
+            caldayOfWeek.value = now.getUTCDay();
+
+            yearWithMonth.value = yearNow.value + "" + monthOfDate.value;
+
             if (caldayOfWeek.value == 0) {
                 caldayOfWeek.value = 7
             }
+
+
+
+            for (let j = caldayOfWeek.value - 2; j > -1; j--) {
+                calPrevDaysInMonth.value.push(prevLastDayofMonth.value - j);
+            }
+
+            if (caldayOfWeek.value == 1) {
+                for (let j = 8; j > 1; j--) {
+                    calPrevDaysInMonth.value.push(prevLastDayofMonth.value - j);
+                }
+            }
+
             for (let i = 1; i <= lastDayofMonth.value; i++) {
                 if (i < 10) {
                     i = "0" + i
@@ -579,11 +679,6 @@ export default {
 
 
             }
-            for (let j = caldayOfWeek.value - 2; j > -1; j--) {
-                calPrevDaysInMonth.value.push(prevLastDayofMonth.value - j);
-            }
-
-            calNextDaysInMonth.value = [];
 
             if (calPrevDaysInMonth.value.length + calDaysInMonth.value.length < 35) {
                 for (let x = 1; x <= 14 - (calLastDayOfWeek.value); x++) {
@@ -597,13 +692,6 @@ export default {
                 }
 
             }
-            yearWithMonth.value = yearNow.value + "" + monthOfDate.value;
-
-
-
-
-
-
             dataLoaded.value = true;
         }
 
@@ -723,6 +811,48 @@ export default {
 
             }
         }
+        const currentCalTaskOpen = ref(false)
+        const currentCalTask = ref([])
+        const currentCalTaskIncrem = ref(0)
+        // const currentCalTaskColor = ref([])
+        // const currentCalTaskWorker = ref([])
+        // const currentCalTaskDate = ref([])
+
+        const closeCalTask = () => {
+
+            setTimeout(() => {
+                currentCalTask.value = [];
+                currentCalTaskOpen.value = false;
+            }, 100)
+        }
+
+        const showCalTask = (day) => {
+            currentCalTask.value = [];
+            currentCalTaskIncrem.value = 0;
+            // currentCalTaskName.value = [];
+            // currentCalTaskColor.value = [];
+            // currentCalTaskWorker.value = [];
+
+            for (let i = 0; i < dataTasks.value.length; i++) {
+                if (day === dataTasks.value[i].task_date) {
+                    currentCalTaskOpen.value = true;
+                    currentCalTask.value.push({
+                        task_name: dataTasks.value[i].task_name,
+                        task_color: dataTasks.value[i].task_color,
+                        task_worker: dataTasks.value[i].task_worker,
+                        task_date: dataTasks.value[i].task_date,
+                    });
+                    currentCalTaskIncrem.value++;
+                }
+
+                if (currentCalTaskIncrem.value === 0) {
+                    currentCalTaskOpen.value = false;
+                }
+            }
+        }
+
+
+
         let helpTabOpen = ref(false)
         let notesTabOpen = ref(false)
         let notesCreateForm = ref(false);
@@ -749,9 +879,8 @@ export default {
                 const subs = supabase
                     .from('*')
                     .on('*', () => {
-                        calPrevDaysInMonth.value = [];
-                        calNextDaysInMonth.value = [];
                         setTimeout(() => {
+                            dataLoaded.value = false;
                             getData();
                         }, 500)
 
@@ -843,7 +972,7 @@ export default {
 
 
 
-        return { dataLoaded, dataTasks, noteNote, pushNote, notesCreateClose, notesCreateForm, notesCreateOpen, deleteNote, dataNotes, helpTabOpen, notesTabOpen, helpTabOpeningFunction, helpTabClosingFunction, notesTabOpeningFunction, notesTabClosingFunction, reallyNowDay, yearWithMonth, logout, reallyNow, user, FirmNotification, PitNotification, dayOfDate, monthOfDate, MonthOfYear, calMonth, calDaysInMonth, calPrevDaysInMonth, calNextDaysInMonth, prevMonth, nextMonth, yearNow }
+        return { closeCalTask, currentCalTask, currentCalTaskOpen, showCalTask, dataLoaded, dataTasks, noteNote, pushNote, notesCreateClose, notesCreateForm, notesCreateOpen, deleteNote, dataNotes, helpTabOpen, notesTabOpen, helpTabOpeningFunction, helpTabClosingFunction, notesTabOpeningFunction, notesTabClosingFunction, reallyNowDay, yearWithMonth, logout, reallyNow, user, FirmNotification, PitNotification, dayOfDate, monthOfDate, MonthOfYear, calMonth, calDaysInMonth, calPrevDaysInMonth, calNextDaysInMonth, prevMonth, nextMonth, yearNow }
     },
     methods: {
         focusNote() {
