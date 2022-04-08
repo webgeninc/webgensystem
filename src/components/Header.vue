@@ -8,7 +8,7 @@
         <div class="flex w-full flex-col items-center justify-start flex-wrap">
             <div
                 v-if="currentCalTaskOpen === true"
-                class="bg-gray-200 w-full pb-1 shadow-md mt-5 h-1/5 overflow-x-hidden overflow-y-auto"
+                class="bg-gray-200 w-full pb-1 shadow-md mt-5 h-2/9 overflow-x-hidden overflow-y-auto"
             >
                 <div
                     v-for="(caltask, iind) in currentCalTask"
@@ -85,7 +85,7 @@
             </div>
             <div
                 v-else
-                class="flex justify-around items-center flex-col p-1 mt-5 w-full bg-gray-100"
+                class="flex justify-around items-center flex-col p-1 h-2/9 mt-5 w-full bg-gray-100"
             >
                 <div class="flex justify-around items-center flex-col w-full">
                     <div class="flex justify-center items-center">
@@ -103,37 +103,72 @@
                                 />
                                 <div class="pl-4">
                                     <p
-                                        class="text-xs 2xl:text-sm 3xl:text-base 3xl:tracking-widest tracking-normal font-medium"
+                                        class="text-xs 2xl:text-sm 3xl:text-sm 3xl:tracking-widest tracking-normal font-medium"
                                     >WEBGENETICSS</p>
-                                    <p class="text-xs 2xl:text-sm tracking-wider font-bold">WIMS</p>
+                                    <p class="text-xs 2xl:text-xs tracking-wider font-bold">WIMS</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="flex w-full flex-col justify-start items-start p-1 flex-wrap">
-                        <p
-                            class="text-gray-800 font-medium text-2xs 2xl:text-xs 3xl:text-sm tracking-widest cursor-default select-none p-0.5"
-                        >{{ time }}</p>
                         <div class="flex flex-row justify-between items-center w-full">
                             <p
-                                class="text-gray-800 font-medium text-2xs 2xl:text-xs 3xl:text-sm text-center tracking-widest cursor-default select-none p-0.5"
+                                class="text-gray-800 font-medium text-2xs 2xl:text-2xs 3xl:text-sm text-center tracking-widest cursor-default select-none 3xl:p-0.5"
                             >{{ day }}</p>
                             <p
-                                class="text-gray-800 font-medium text-2xs 2xl:text-xs 3xl:text-sm text-center tracking-widest cursor-default select-none p-0.5"
+                                class="text-gray-800 font-medium text-2xs 2xl:text-2xs 3xl:text-sm text-center tracking-widest cursor-default select-none 3xl:p-0.5"
+                            >{{ month }}</p>
+                        </div>
+
+                        <div class="flex flex-row justify-between items-center w-full">
+                            <p
+                                class="text-gray-800 font-medium text-2xs 2xl:text-2xs 3xl:text-sm text-center tracking-widest cursor-default select-none 3xl:p-0.5"
+                            >{{ time }}</p>
+                            <p
+                                class="text-gray-800 font-medium text-2xs 2xl:text-2xs 3xl:text-sm text-center tracking-widest cursor-default select-none 3xl:p-0.5"
                             >{{ date }}</p>
                         </div>
                     </div>
                 </div>
-                <div class="h-px w-11/12 bg-gray-300 m-0.5"></div>
-                <div class="p-2 pr-2 pl-2 flex justify-end flex-col">
-                    <div v-if="FirmNotification" class="flex justify-center items-center">
+                <div class="h-px w-11/12 bg-gray-300 mr-0.5 ml-0.5"></div>
+                <div class="p-2 pr-2 pl-2 flex justify-end flex-col w-full">
+                    <div
+                        v-if="FirmNotification"
+                        class="flex justify-between items-center flex-row w-full"
+                    >
+                        <div
+                            class="flex justify-start items-center h-full w-2 bg-red-500 mr-1 rounded-lg"
+                        ></div>
+                        <div class="flex justify-center items-center flex-col ml-2 w-full">
+                            <p
+                                class="text-gray-800 font-semibold text-3xs 2xl:text-2xs 3xl:text-xs tracking-wider cursor-default select-none w-full"
+                            >
+                                Jest
+                                <span
+                                    class="font-normal border-b border-gray-500"
+                                >{{ dayOfDate }}</span>
+                                -
+                                {{ FirmNotification }}
+                            </p>
+                            <p
+                                v-if="monthOfDate < 3"
+                                class="text-gray-800 font-semibold text-3xs 2xl:text-2xs 3xl:text-xs tracking-wider cursor-default select-none w-full"
+                            >
+                                Jest
+                                <span
+                                    class="font-normal border-b border-gray-500"
+                                >{{ MonthOfYear }}</span>
+                                -
+                                {{ PitNotification }}
+                            </p>
+                        </div>
+                    </div>
+                    <div v-else class="flex justify-center items-center">
                         <p
-                            class="text-gray-800 font-semibold text-2xs 2xl:text-xs 3xl:text-sm text-center tracking-widest cursor-default select-none"
+                            class="text-gray-800 font-medium text-2xs 2xl:text-xs 3xl:text-sm text-center tracking-widest cursor-default select-none"
                         >
-                            Jest
-                            <span class="font-normal border-b border-gray-500">{{ dayOfDate }}</span>
-                            .
-                            {{ FirmNotification }}
+                            Masz
+                            <span class="font-normal border-b border-gray-500">0</span> powiadomień :)
                         </p>
                     </div>
                 </div>
@@ -161,10 +196,7 @@
                         >></button>
                     </div>
                 </div>
-                <div
-                    v-if="!currentCalTaskOpen === true"
-                    class="bg-gray-500 w-10/12 h-px m-1 opacity-70"
-                ></div>
+                <div class="bg-gray-500 w-10/12 h-px m-1 opacity-70"></div>
                 <div class="flex p-2 mt-1 pb-2 pt-5 w-full text-2xs font-semibold 2xl:text-xs">
                     <div class="w-1/7 flex justify-center items-center">PON</div>
                     <div class="w-1/7 flex justify-center items-center">WT</div>
@@ -556,6 +588,7 @@ export default {
         this.showTime();
         this.showDate();
         this.showdayOfWeek();
+        this.showMonth();
     },
     setup() {
         const FirmNotification = ref(null);
@@ -563,14 +596,16 @@ export default {
         const MonthOfYear = ref(null);
         const dataLoaded = ref(null);
         let now = new Date();
-        const reallyNow = ref(now.getUTCFullYear() + "" + now.getUTCMonth())
-        const reallyNowDay = ref(now.getUTCDate())
-        let dayOfDate = ref(now.getUTCDate());
-        let monthOfDate = ref(now.getUTCMonth());
-        let yearNow = ref(now.getUTCFullYear())
+        const reallyNow = ref(now.getFullYear() + "" + now.getMonth())
+        const reallyNowDay = ref(now.getDate())
+        let dayOfDate = ref(now.getDate());
+        let monthOfDate = ref(now.getMonth());
+        let yearNow = ref(now.getFullYear())
+
+        console.log(monthOfDate.value)
 
         if (monthOfDate.value < 2) {
-            PitNotification.value = "Przypomnienie o PIT";
+            PitNotification.value = "PIT-28 do końca lutego.";
         } else if (monthOfDate.value == 2) {
             PitNotification.value = "Przypomnienie o ZWROTCIE PODATKU";
         } else {
@@ -591,7 +626,8 @@ export default {
             MonthOfYear.value = "luty";
         } else if (monthOfDate.value == 2) {
             MonthOfYear.value = "marzec";
-        } else {
+        }
+        else {
             MonthOfYear.value = null;
         }
 
@@ -991,6 +1027,60 @@ export default {
                 }
 
                 this.time = timeNow;
+            }, 1000)
+        },
+        showMonth() {
+            const timer = setInterval(() => {
+                const now = new Date();
+                let monthNow = now.getMonth() + "";
+
+                switch (monthNow) {
+                    case "0":
+                        monthNow = "STYCZEŃ";
+                        break;
+                    case "1":
+                        monthNow = "LUTY";
+                        break;
+                    case "2":
+                        monthNow = "MARZEC";
+                        break;
+                    case "3":
+                        monthNow = "KWIECIEŃ";
+                        break;
+                    case "4":
+                        monthNow = "MAJ";
+                        break;
+                    case "5":
+                        monthNow = "CZERWIEC";
+                        break;
+                    case "6":
+                        monthNow = "LIPIEC";
+                        break;
+                    case "7":
+                        monthNow = "SIERPIEŃ";
+                        break;
+                    case "8":
+                        monthNow = "WRZESIEŃ";
+                        break;
+                    case "9":
+                        monthNow = "PAŹDZIERNIK";
+                        break;
+                    case "10":
+                        monthNow = "LISTOPAD";
+                        break;
+                    case "11":
+                        monthNow = "GRUDZIEŃ";
+                        break;
+                }
+
+
+
+
+                if (now < 1) {
+                    clearInterval(timer);
+                }
+
+                this.month = monthNow;
             }, 1000)
         },
         showdayOfWeek() {
