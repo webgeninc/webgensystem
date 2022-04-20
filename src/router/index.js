@@ -46,12 +46,12 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const user = supabase.auth.user();
-  if (to.matched.some((res) => res.meta.auth)){
+  if (to.matched.some((res) => res.meta.auth)) {
     if (user) {
       next();
       return
     }
-    next({name: "Login"})
+    next({ name: "Login" })
     return
   }
   next();

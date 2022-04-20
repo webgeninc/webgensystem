@@ -4,8 +4,10 @@ const state = reactive({
     user: null,
 })
 
+
 const methods = {
     setUser(payload) {
+        console.log(payload.user)
         state.user = payload ? payload.user : null;
     }
 }
