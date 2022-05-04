@@ -27,7 +27,7 @@
                         <div
                             class="bg-gray-600 text-3xs 2xl:text-2xs 3xl:text-xs flex-1 text-white p-0.5 pl-2 pr-2 font-medium flex justify-center items-center">
                             <p class="font-normal tracking-wider flex flex-wrap overflow-x-hidden uppercase">{{
-                                caltask.task_worker
+                                    caltask.task_worker
                             }}</p>
                         </div>
                     </div>
@@ -43,8 +43,8 @@
                                     class="text-2xs 2xl:text-xs 3xl:text-xs m-1 mr-1 ml-1 font-medium flex flex-wrap justify-end items-end uppercase text-right">
                                     minęło
                                     {{
-                                        Math.ceil(Math.abs(new Date(caltask.task_date.replace(/\./g, '/')) - new Date())
-                                            / 1000 / 60 / 60 / 24) - 1
+                                            Math.ceil(Math.abs(new Date(caltask.task_date.replace(/\./g, '/')) - new Date())
+                                                / 1000 / 60 / 60 / 24) - 1
                                     }} dni temu
                                 </p>
                                 <p v-else-if="Math.ceil((new Date(caltask.task_date.replace(/\./g, '/')) - new Date()) / 1000 / 60 / 60 / 24) == 0"
@@ -53,15 +53,15 @@
                                 <p v-else-if="Math.ceil((new Date(caltask.task_date.replace(/\./g, '/')) - new Date()) / 1000 / 60 / 60 / 24) <= 7"
                                     class="text-2xs 2xl:text-xs 3xl:text-xs m-1 mr-1 ml-1 font-medium flex flex-wrap justify-end items-end uppercase text-right">
                                     {{
-                                        Math.ceil((new Date(caltask.task_date.replace(/\./g, '/')) - new Date()) / 1000 /
-                                            60 / 60 / 24)
+                                            Math.ceil((new Date(caltask.task_date.replace(/\./g, '/')) - new Date()) / 1000 /
+                                                60 / 60 / 24)
                                     }} dni</p>
                                 <p v-else-if="Math.ceil((new Date(caltask.task_date.replace(/\./g, '/')) - new Date()) / 1000 / 60 / 60 / 24) > 7"
                                     class="text-2xs 2xl:text-xs 3xl:text-xs m-1 mr-1 ml-1 font-medium flex flex-wrap justify-end items-end uppercase text-right">
                                     jeszcze
                                     {{
-                                        Math.ceil((new Date(caltask.task_date.replace(/\./g, '/')) - new Date()) / 1000 /
-                                            60 / 60 / 24)
+                                            Math.ceil((new Date(caltask.task_date.replace(/\./g, '/')) - new Date()) / 1000 /
+                                                60 / 60 / 24)
                                     }} dni
                                 </p>
                             </div>
@@ -75,7 +75,7 @@
                         <div class="flex justify-center items-center overflow-hidden cursor-default select-none m-1">
                             <div class="flex justify-center items-center rounded-full overflow-hidden w-full">
                                 <img src="../assets/logo_circle.svg" alt="WIMS" draggable="false"
-                                    class="cursor-default select-none p-1 pr-0 pl-0 font-montserrat w-1/4" />
+                                    class="cursor-default select-none p-1 pr-0 pl-0 font-montserrat w-2/7" />
                                 <div class="pl-4">
                                     <p
                                         class="text-xs 2xl:text-sm 3xl:text-sm 3xl:tracking-widest tracking-normal font-medium">
@@ -169,7 +169,7 @@
                                 class="flex flex-col justify-center items-center cursor-pointer transition rounded-md hover:bg-gray-300 w-98/100 h-9/10">
                                 <span class="mb-2">
                                     {{
-                                        day
+                                            day
                                     }}
                                 </span>
                             </div>
@@ -226,7 +226,7 @@
                                 class="flex justify-center flex-col items-center cursor-pointer transition rounded-md hover:bg-gray-300 w-98/100 h-9/10">
                                 <span class="mb-2">
                                     {{
-                                        day
+                                            day
                                     }}
                                 </span>
                             </div>
@@ -237,8 +237,8 @@
             <div v-if="(helpTabOpen === false) && (notesTabOpen === false)"
                 class="transition flex flex-col justify-end items-end flex-grow w-full p-2 mt-3 cursor-default select-none">
                 <div class="flex flex-row justify-between items-center">
-                    <p @click="invoiceWindowHandler"
-                        class="border p-0.5 pr-3 pl-3 mb-2 mr-2 rounded-sm text-gray-100 hover:text-gray-50 bg-gray-800 hover:bg-gray-700 text-right font-light text-2xs tracking-widest transition cursor-pointer select-none">
+                    <p
+                        class="border border-gray-500 p-0.5 pr-3 pl-3 mb-2 mr-2 rounded-sm text-gray-400  bg-gray-800  text-right font-light text-2xs tracking-widest transition cursor-default select-none">
                         faktury</p>
                     <p @click="notesTabOpeningFunction"
                         class="border p-0.5 pr-3 pl-3 mb-2 mr-2 rounded-sm text-gray-100 hover:text-gray-50 bg-gray-800 hover:bg-gray-700 text-right font-light text-2xs tracking-widest transition cursor-pointer select-none">
@@ -254,7 +254,7 @@
                     class="text-red-300 text-right font-light text-xs tracking-widest pb-2 pt-1 mb-2 transition cursor-pointer hover:text-opacity-70 select-none">
                     Wyloguj się</p>
                 <p class="text-gray-300 font-light text-xs text-right tracking-wide">
-                    <span class="font-medium tracking-widest">WIMS</span> 0.7.20
+                    <span class="font-medium tracking-widest">WIMS</span> 0.7.55
                 </p>
                 <p class="text-gray-300 font-normal text-xs text-right tracking-wide">
                     ♻ CO2-FREE
@@ -310,7 +310,7 @@
                 </div>
 
                 <p class="text-gray-300 font-light text-xs text-right tracking-wide mt-2">
-                    <span class="font-medium tracking-widest">WIMS</span> 0.7.20
+                    <span class="font-medium tracking-widest">WIMS</span> 0.7.55
                 </p>
                 <p class="text-gray-300 font-light text-2xs text-right tracking-widest">
                     <span class="font-medium tracking-wider">WEBGENETICSS</span> Interpolate Management System
@@ -378,7 +378,7 @@
                 <p class="text-webgencol font-light text-3xs 2xl:text-xs text-right tracking-wider">{{ user.aud }}</p>
                 <p class="text-gray-300 font-light text-3xs 2xl:text-xs text-right tracking-wider mt-1">
                     ostatnio zalogowany - {{
-                        user.last_sign_in_at
+                            user.last_sign_in_at
                     }}
                 </p>
                 <p class="text-gray-300 font-light text-3xs 2xl:text-xs text-right tracking-widest">
@@ -656,7 +656,6 @@ export default {
         let monthOfDate = ref(now.getMonth());
         let yearNow = ref(now.getFullYear())
 
-        console.log(monthOfDate.value)
 
         if (monthOfDate.value < 2) {
             PitNotification.value = "PIT-28 do końca lutego.";
@@ -964,23 +963,17 @@ export default {
             notesTabOpen.value = false
         }
 
-        const checkData = async () => {
-            try {
-                const subs = supabase
-                    .from('*')
-                    .on('*', () => {
-                        setTimeout(() => {
-                            dataLoaded.value = false;
-                            getData();
-                        }, 500)
+        const checkData = () => {
+            const subs = supabase
+                .from('*')
+                .on('*', () => {
+                    setTimeout(() => {
+                        getData();
+                    }, 100)
+                })
+                .subscribe()
 
-                    })
-                    .subscribe()
-                return () => supabase.removeSubscription(subs);
-
-            } catch (error) {
-                console.warn(error.message);
-            }
+            return () => supabase.removeSubscription(subs);
         };
 
 
@@ -990,7 +983,6 @@ export default {
 
         const getData = async () => {
             dataLoaded.value = false;
-
             try {
                 const { data: notes_table, error_notes } = await supabase.from('notes_table').select('*').order('created_at', { ascending: false });
                 const { data: tasks_table, error_task } = await supabase.from('tasks_table').select('*').order('task_date', { ascending: true });
@@ -1002,18 +994,11 @@ export default {
             } catch (error) {
                 console.warn(error.message);
             }
-
             getDataTasksForDays();
-
         };
 
+        checkData();
         getData();
-
-        setInterval(() => {
-            checkData()
-        }, 2000)
-
-
 
         const deleteNote = async (noteID) => {
             try {
@@ -1062,7 +1047,6 @@ export default {
 
         const invoiceWindowHandler = () => {
             invoiceWindow.value = !invoiceWindow.value
-            console.log(invoiceWindow.value)
         }
 
 
