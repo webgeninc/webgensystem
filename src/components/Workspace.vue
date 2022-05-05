@@ -158,13 +158,18 @@
                 <form v-for="(item, index) in tasks" :key="index"
                     @submit.prevent="pushTask(item.task_name, item.task_worker, item.task_desc, item.task_date, item.task_color, tab.id)"
                     class="flex flex-col justify-center text-xs items-center">
-                    <h4 class="text-xs m-px font-semibold text-gray-700">Dodaj zadanie</h4>
+                    <div class="w-full flex justify-between items-center pl-1 m-1">
+
+                        <h4 class="text-xs m-0.5 pl-1 pr-3 font-semibold uppercase">Nowe zadanie</h4>
+                        <button @click="removeCreateTask"
+                            class="bg-gray-400 text-gray-50 rounded-2xl text-2xs font-medium transition hover:bg-gray-500 p-0.5 pr-3 pl-3 mr-0.5 ml-0.5">Zamknij
+                            okno</button>
+                    </div>
                     <div class="flex w-full flex-col justify-center items-center p-1">
                         <div class="flex w-full justify-between items-center m-1 h-6">
                             <input v-model="item.task_name" autocomplete="off" maxlength="50" minlength="5" required
                                 id="taskName" type="text" placeholder="Nazwa zadania"
                                 class="p-1 w-3/5 text-xs focus:border-gray-400 border-gray-200 border focus:outline-none resize-none" />
-
                             <select required v-model="item.task_worker"
                                 class="p-1 w-2/6 text-xs focus:border-gray-400 border-gray-200 border focus:outline-none">
                                 <option value="Ozi">Ozito</option>
@@ -190,10 +195,11 @@
                         </div>
 
                         <div class="flex flex-row w-full justify-around items-center mt-2 text-2xs">
+                            <input ref="imageUpload" id="imageUpload" type="file" accept="image/*"
+                                class="w-full text-2xs p-0 m-1 flex justify-start items-center" />
                             <button type="submit"
-                                class="bg-gray-400 text-gray-50 rounded-2xl font-medium transition hover:bg-gray-500 p-0.5 pr-5 pl-5 mr-0.5 ml-0.5">Dodaj</button>
-                            <button @click="removeCreateTask"
-                                class="bg-gray-400 text-gray-50 rounded-2xl font-medium transition hover:bg-gray-500 p-0.5 pr-5 pl-5 mr-0.5 ml-0.5">Zamknij</button>
+                                class="bg-gray-400 text-gray-50 rounded-2xl font-medium transition hover:bg-gray-500 p-0.5 pr-3 pl-3 mr-0.5 ml-0.5">Dodaj</button>
+
                         </div>
                     </div>
                 </form>
@@ -217,6 +223,7 @@
                     </div>
                 </form>
             </div>
+            <img src="dataImages.value" alt="">
             <div v-if="statusMsg" class="flex flex-row justify-evenly text-xs flex-wrap">
                 <div class="text-red-500 font-medium transition flex-1 pt-2 pb-2 m-1">Status: {{ statusMsg }}</div>
             </div>
@@ -253,6 +260,7 @@ export default {
         todaysDate.value = todaysDate.value.getUTCDate() + "." + (todaysDate.value.getUTCMonth() + 1) + "." + todaysDate.value.getUTCFullYear();
         const dataTabs = ref([]);
         const dataTasks = ref([]);
+        const dataImages = ref([]);
         const dataLoaded = ref(null);
         const hoverTask = ref(true);
 
@@ -263,6 +271,9 @@ export default {
         const hoverTaskLeave = () => {
             hoverTask.value = null;
         }
+
+
+
 
         const checkData = () => {
             const subs = supabase
@@ -277,18 +288,29 @@ export default {
             return () => supabase.removeSubscription(subs);
         };
 
+
+
+
         const getData = async () => {
             try {
                 const { data: tasks_table, error_task } = await supabase.from('tasks_table').select('*').order('task_date', { ascending: true });
                 const { data: tabs_table, error_tabs } = await supabase.from('tabs_table').select('*').order('created_at', { ascending: true });
+                const { data: data_images, error_images } = await supabase.storage
+                    .from('images')
+                    .download('MB8.jpg')
                 if (error_tabs) throw error_tabs;
                 dataTabs.value = tabs_table;
                 if (error_task) throw error_task;
                 dataTasks.value = tasks_table;
+                if (error_images) throw error_images;
+                let newObjects = URL.createObjectURL(data_images)
+                dataImages.value = newObjects;
                 dataLoaded.value = true;
+                console.log(dataImages.value)
             } catch (error) {
                 console.warn(error.message);
             }
+
         };
 
 
@@ -536,7 +558,7 @@ export default {
                 }, 2000)
             }
         }
-        return { viewDate, seeMore, seeMoreHandler, removeEditTask, editedTask, pushEditTask, editTask, ChangeEditTask, okeyHandler, pushTabName, tabNameChanger, changeTabName, deleteTab, user, hoverTask, hoverTaskEnter, hoverTaskLeave, tabName, tasks, statusMsg, errorMsg, createTask, addCreateTask, addCreateTab, removeCreateTab, removeCreateTask, addTask, deleteTask, pushTask, pushTab, createTab, dataLoaded, dataTabs, dataTasks }
+        return { dataImages, viewDate, seeMore, seeMoreHandler, removeEditTask, editedTask, pushEditTask, editTask, ChangeEditTask, okeyHandler, pushTabName, tabNameChanger, changeTabName, deleteTab, user, hoverTask, hoverTaskEnter, hoverTaskLeave, tabName, tasks, statusMsg, errorMsg, createTask, addCreateTask, addCreateTab, removeCreateTab, removeCreateTask, addTask, deleteTask, pushTask, pushTab, createTab, dataLoaded, dataTabs, dataTasks }
     },
 }
 </script>
