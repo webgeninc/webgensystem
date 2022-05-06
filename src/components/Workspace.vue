@@ -54,9 +54,22 @@
                                         USUŃ</p>
                                 </div>
                             </div>
-                            <p class="text-sm m-1 font-semibold flex flex-wrap overflow-x-hidden">{{ task.task_name }}
-                            </p>
+                            <div class="flex justify-between items-center">
+                                <p class="text-sm m-1 font-semibold flex flex-wrap overflow-x-hidden">{{ task.task_name
+                                }}
+                                </p>
+                                <button
+                                    v-if="task.task_image !== '' && task.task_image !== null && imageStatus !== task.id"
+                                    @click="openImage(task.id)"
+                                    class="bg-gray-400 text-gray-50 rounded-2xl text-2xs font-medium transition hover:bg-gray-500 p-0.5 pr-3 pl-3 mr-0.5 ml-0.5">Zobacz
+                                    obraz
+                                </button>
+                            </div>
                             <!-- <img src="dataImages" class="w-10 h-10"> -->
+                            <div v-if="task.task_image !== '' && task.task_image !== null">
+                                <img v-if="imageStatus === task.id" @click="closeImage" src=""
+                                    class="w-full p-1 mt-1 mb-1">
+                            </div>
                             <div v-if="(task.task_desc.length > 140) & (seeMore != task.id)" class="w-full">
                                 <p class="text-sm m-1 font-normal overflow-hidden h-16">{{ task.task_desc }}</p>
                                 <p @click="seeMoreHandler(task.id)"
@@ -333,6 +346,7 @@ export default {
         // createData
         const seeMore = ref(null);
         const okeyHandler = ref(false);
+        const imageStatus = ref(null);
         const tabName = ref("");
         const tabNameChanger = ref(null);
         const createTask = ref(null);
@@ -359,6 +373,15 @@ export default {
 
         const removeCreateTask = () => {
             createTask.value = 0
+        }
+
+
+        const openImage = (id) => {
+            imageStatus.value = id;
+        }
+
+        const closeImage = () => {
+            imageStatus.value = null;
         }
 
 
@@ -566,7 +589,7 @@ export default {
                 }, 2000)
             }
         }
-        return { dataImages, viewDate, seeMore, seeMoreHandler, removeEditTask, editedTask, pushEditTask, editTask, ChangeEditTask, okeyHandler, pushTabName, tabNameChanger, changeTabName, deleteTab, user, hoverTask, hoverTaskEnter, hoverTaskLeave, tabName, tasks, statusMsg, errorMsg, createTask, addCreateTask, addCreateTab, removeCreateTab, removeCreateTask, addTask, deleteTask, pushTask, pushTab, createTab, dataLoaded, dataTabs, dataTasks }
+        return { imageStatus, openImage, closeImage, dataImages, viewDate, seeMore, seeMoreHandler, removeEditTask, editedTask, pushEditTask, editTask, ChangeEditTask, okeyHandler, pushTabName, tabNameChanger, changeTabName, deleteTab, user, hoverTask, hoverTaskEnter, hoverTaskLeave, tabName, tasks, statusMsg, errorMsg, createTask, addCreateTask, addCreateTab, removeCreateTab, removeCreateTask, addTask, deleteTask, pushTask, pushTab, createTab, dataLoaded, dataTabs, dataTasks }
     },
 }
 </script>
