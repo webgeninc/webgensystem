@@ -254,7 +254,7 @@
                     class="text-red-300 text-right font-light text-xs tracking-widest pb-2 pt-1 mb-2 transition cursor-pointer hover:text-opacity-70 select-none">
                     Wyloguj się</p>
                 <p class="text-gray-300 font-light text-xs text-right tracking-wide">
-                    <span class="font-medium tracking-widest">WIMS</span> 0.7.55
+                    <span class="font-medium tracking-widest">WIMS</span> {{ version }}
                 </p>
                 <p class="text-gray-300 font-normal text-xs text-right tracking-wide">
                     ♻ CO2-FREE
@@ -310,7 +310,7 @@
                 </div>
 
                 <p class="text-gray-300 font-light text-xs text-right tracking-wide mt-2">
-                    <span class="font-medium tracking-widest">WIMS</span> 0.7.55
+                    <span class="font-medium tracking-widest">WIMS</span> {{ version }}
                 </p>
                 <p class="text-gray-300 font-light text-2xs text-right tracking-widest">
                     <span class="font-medium tracking-wider">WEBGENETICSS</span> Interpolate Management System
@@ -655,6 +655,7 @@ export default {
         let dayOfDate = ref(now.getDate());
         let monthOfDate = ref(now.getMonth());
         let yearNow = ref(now.getFullYear())
+        const version = ref("0.7.60")
 
 
         if (monthOfDate.value < 2) {
@@ -1051,7 +1052,7 @@ export default {
 
 
 
-        return { invoiceWindowHandler, invoiceWindow, closeCalTask, currentCalTask, currentCalTaskOpen, showCalTask, dataLoaded, dataTasks, noteNote, pushNote, notesCreateClose, notesCreateForm, notesCreateOpen, deleteNote, dataNotes, helpTabOpen, notesTabOpen, helpTabOpeningFunction, helpTabClosingFunction, notesTabOpeningFunction, notesTabClosingFunction, reallyNowDay, yearWithMonth, logout, reallyNow, user, FirmNotification, PitNotification, dayOfDate, monthOfDate, MonthOfYear, calMonth, calDaysInMonth, calPrevDaysInMonth, calNextDaysInMonth, prevMonth, nextMonth, yearNow }
+        return { version, invoiceWindowHandler, invoiceWindow, closeCalTask, currentCalTask, currentCalTaskOpen, showCalTask, dataLoaded, dataTasks, noteNote, pushNote, notesCreateClose, notesCreateForm, notesCreateOpen, deleteNote, dataNotes, helpTabOpen, notesTabOpen, helpTabOpeningFunction, helpTabClosingFunction, notesTabOpeningFunction, notesTabClosingFunction, reallyNowDay, yearWithMonth, logout, reallyNow, user, FirmNotification, PitNotification, dayOfDate, monthOfDate, MonthOfYear, calMonth, calDaysInMonth, calPrevDaysInMonth, calNextDaysInMonth, prevMonth, nextMonth, yearNow }
     },
     methods: {
         focusNote() {

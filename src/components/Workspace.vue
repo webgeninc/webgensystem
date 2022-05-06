@@ -54,9 +54,9 @@
                                         USUŃ</p>
                                 </div>
                             </div>
-
                             <p class="text-sm m-1 font-semibold flex flex-wrap overflow-x-hidden">{{ task.task_name }}
                             </p>
+                            <!-- <img src="dataImages" class="w-10 h-10"> -->
                             <div v-if="(task.task_desc.length > 140) & (seeMore != task.id)" class="w-full">
                                 <p class="text-sm m-1 font-normal overflow-hidden h-16">{{ task.task_desc }}</p>
                                 <p @click="seeMoreHandler(task.id)"
@@ -72,7 +72,7 @@
                             <p v-if="task.task_desc.length <= 140" class="text-sm m-1 font-normal">{{ task.task_desc }}
                             </p>
                             <div class="mt-1 flex flex-row justify-between">
-                                <div class="flex flex-row">
+                                <div v-if="task.task_date !== ''" class="flex flex-row">
                                     <p class="text-xs m-1 font-semibold">{{ viewDate(task.task_date) }}</p>
                                     <p v-if="Math.ceil((new Date(task.task_date.replace(/\./g, '/')) - new Date()) / 1000 / 60 / 60 / 24) < 0"
                                         class="text-xs m-1 font-normal text-red-600">
@@ -101,6 +101,9 @@
                                         }}</span> dni)
                                     </p>
                                 </div>
+                                <div v-if="task.task_date === ''" class="flex flex-row">
+                                    <p class="text-xs m-1 font-semibold">Bez daty</p>
+                                </div>
                                 <p @click="hoverTaskEnter(task.id)"
                                     class="text-xs m-1 font-bold hover:text-gray-400 transition cursor-pointer">{{
                                             task.task_worker
@@ -112,7 +115,13 @@
                         class="flex justify-center items-center p-px pt-1 pb-1 w-full">
                         <form v-for="(item, index) in editedTask" :key="index" @submit.prevent="pushEditTask(task.id)"
                             class="flex flex-col justify-center text-xs items-center">
-                            <h4 class="text-xs m-px font-semibold text-gray-700">Edycja zadania</h4>
+                            <div class="w-full flex justify-between items-center pl-1 m-1">
+
+                                <h4 class="text-xs m-0.5 pl-1 pr-3 font-semibold uppercase">Edycja zadanie</h4>
+                                <button @click="removeEditTask"
+                                    class="bg-gray-400 text-gray-50 rounded-2xl text-2xs font-medium transition hover:bg-gray-500 p-0.5 pr-3 pl-3 mr-0.5 ml-0.5">Zamknij
+                                    okno</button>
+                            </div>
                             <div class="flex w-full flex-col justify-center items-center p-1">
                                 <div class="flex w-full justify-between items-center m-1 h-6">
                                     <input v-model="item.task_name" autocomplete="off" maxlength="50" minlength="5"
@@ -130,7 +139,7 @@
                                     type="text" placeholder="Opis"
                                     class="w-full h-16 m-1 p-1 text-xs border-gray-200 border focus:border-gray-400 focus:outline-none resize-none" />
                                 <div class="flex flex-row w-full justify-between items-center mt-1 mb-1 text-xs">
-                                    <input required v-model="item.task_date" type="date"
+                                    <input v-model="item.task_date" type="date"
                                         class="w-1/2 h-6 p-1 focus:border-gray-400 border-gray-200 border focus:outline-none" />
                                     <select required v-model="item.task_color"
                                         class="p-1 w-2/5 h-6 focus:border-gray-400 border-gray-200 border focus:outline-none">
@@ -144,10 +153,10 @@
                                 </div>
 
                                 <div class="flex flex-row w-full justify-around items-center mt-2 text-2xs">
+                                    <input ref="imageUpload" id="imageUpload" type="file" accept="image/*"
+                                        class="w-full text-2xs p-0 m-1 flex justify-start items-center  opacity-30 pointer-events-none" />
                                     <button type="submit"
-                                        class="bg-gray-400 text-gray-50 rounded-2xl font-medium transition hover:bg-gray-500 p-0.5 pr-5 pl-5 mr-0.5 ml-0.5">Dodaj</button>
-                                    <button @click="removeEditTask"
-                                        class="bg-gray-400 text-gray-50 rounded-2xl font-medium transition hover:bg-gray-500 p-0.5 pr-5 pl-5 mr-0.5 ml-0.5">Zamknij</button>
+                                        class="bg-gray-400 text-gray-50 rounded-2xl font-medium transition hover:bg-gray-500 p-0.5 pr-3 pl-3 mr-0.5 ml-0.5">Dodaj</button>
                                 </div>
                             </div>
                         </form>
@@ -181,7 +190,7 @@
                             placeholder="Opis"
                             class="w-full h-16 m-1 p-1 text-xs focus:border-gray-400 border-gray-200 border focus:outline-none resize-none" />
                         <div class="flex flex-row w-full justify-between items-center mt-1 mb-1 text-xs">
-                            <input required v-model="item.task_date" type="date"
+                            <input v-model="item.task_date" type="date"
                                 class="w-1/2 h-6 p-1 focus:border-gray-400 border-gray-200 border focus:outline-none" />
                             <select required v-model="item.task_color"
                                 class="p-1 w-2/5 h-6 focus:border-gray-400 border-gray-200 border focus:outline-none">
@@ -196,10 +205,9 @@
 
                         <div class="flex flex-row w-full justify-around items-center mt-2 text-2xs">
                             <input ref="imageUpload" id="imageUpload" type="file" accept="image/*"
-                                class="w-full text-2xs p-0 m-1 flex justify-start items-center" />
+                                class="w-full text-2xs p-0 m-1 flex justify-start items-center  opacity-30 pointer-events-none" />
                             <button type="submit"
                                 class="bg-gray-400 text-gray-50 rounded-2xl font-medium transition hover:bg-gray-500 p-0.5 pr-3 pl-3 mr-0.5 ml-0.5">Dodaj</button>
-
                         </div>
                     </div>
                 </form>
@@ -236,6 +244,7 @@
 
 <script>
 import { computed } from "vue"
+import "../supabase/init.js"
 import store from "../store/index.js"
 import { ref } from "@vue/reactivity"
 // import { uid } from "uid"
@@ -295,18 +304,17 @@ export default {
             try {
                 const { data: tasks_table, error_task } = await supabase.from('tasks_table').select('*').order('task_date', { ascending: true });
                 const { data: tabs_table, error_tabs } = await supabase.from('tabs_table').select('*').order('created_at', { ascending: true });
-                const { data: data_images, error_images } = await supabase.storage
-                    .from('images')
-                    .download('MB8.jpg')
+                // const { data: data_images, error_images } = await supabase.storage
+                //     .from('images')
+                //     .download('MB8.jpg')
                 if (error_tabs) throw error_tabs;
                 dataTabs.value = tabs_table;
                 if (error_task) throw error_task;
                 dataTasks.value = tasks_table;
-                if (error_images) throw error_images;
-                let newObjects = URL.createObjectURL(data_images)
-                dataImages.value = newObjects;
+                // if (error_images) throw error_images;
+                // dataImages.value = data_images;
                 dataLoaded.value = true;
-                console.log(dataImages.value)
+                console.log(dataTasks.value)
             } catch (error) {
                 console.warn(error.message);
             }
