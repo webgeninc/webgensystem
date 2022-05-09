@@ -2,7 +2,7 @@
     <div v-if="user" v-dragscroll:nochilddrag
         class="bg-gray-100 w-5/6 p-2 pb-0 flex flex-nowrap overflow-x-auto font-montserrat">
         <!-- Tabela -->
-        <div v-for="(tab, index) in dataTabs" :key="index" class="flex flex-shrink-0 w-76 flex-col m-1">
+        <div v-for="(tab, index) in dataTabs" :key="index" class="flex flex-shrink-0 w-86 flex-col m-1">
             <div v-if="tabNameChanger != tab.id" data-dragscroll class="flex flex-row justify-end text-xs cursor-grab">
                 <p @click="changeTabName(tab.id), focusTab()"
                     class="ml-2 mr-2 text-2xs tracking-wider font-semibold text-gray-600 text-opacity-50 hover:text-opacity-100 transition cursor-pointer">
@@ -65,11 +65,6 @@
                                     obraz
                                 </button>
                             </div>
-                            <!-- <img src="dataImages" class="w-10 h-10"> -->
-                            <div v-if="task.task_image !== '' && task.task_image !== null">
-                                <img v-if="imageStatus === task.id" @click="closeImage" src=""
-                                    class="w-full p-1 mt-1 mb-1">
-                            </div>
                             <div v-if="(task.task_desc.length > 140) & (seeMore != task.id)" class="w-full">
                                 <p class="text-sm m-1 font-normal overflow-hidden h-16">{{ task.task_desc }}</p>
                                 <p @click="seeMoreHandler(task.id)"
@@ -84,6 +79,10 @@
                             </div>
                             <p v-if="task.task_desc.length <= 140" class="text-sm m-1 font-normal">{{ task.task_desc }}
                             </p>
+                            <div v-if="task.task_image !== '' && task.task_image !== null">
+                                <img v-if="imageStatus === task.id" @click="closeImage()" ref="imagerPreview"
+                                    class="w-full p-px mt-0.5 mb-1.5">
+                            </div>
                             <div class="mt-1 flex flex-row justify-between">
                                 <div v-if="task.task_date !== ''" class="flex flex-row">
                                     <p class="text-xs m-1 font-semibold">{{ viewDate(task.task_date) }}</p>
@@ -244,7 +243,6 @@
                     </div>
                 </form>
             </div>
-            <img src="dataImages.value" alt="">
             <div v-if="statusMsg" class="flex flex-row justify-evenly text-xs flex-wrap">
                 <div class="text-red-500 font-medium transition flex-1 pt-2 pb-2 m-1">Status: {{ statusMsg }}</div>
             </div>
@@ -275,6 +273,39 @@ export default {
                 this.$refs.tabka.focus();
             }, 100)
         },
+        closeImage() {
+            this.imageStatus = null;
+            this.$refs.imagerPreview.src = null;
+            this.dataImage = null
+        },
+        openImage(id) {
+            this.imageStatus = id;
+            this.getImageData(id)
+        },
+        previewImage() {
+            this.$refs.imagerPreview.src = this.dataImage
+        },
+        async getImageData(id) {
+            let imageName = null;
+            for (let i = 0; i < this.dataTasks.length; i++) {
+                if (this.dataTasks[i].id === id) {
+                    console.log(this.dataTasks[i].id)
+                    imageName = this.dataTasks[i].task_image;
+                    console.log(imageName)
+                }
+            }
+            try {
+                const { data: data_images, error_images } = await supabase.storage
+                    .from('images')
+                    .download(imageName)
+                if (error_images) throw error_images;
+                this.dataImage = URL.createObjectURL(new Blob([data_images], { type: "image/jpeg" }));
+                this.previewImage();
+            }
+            catch (error) {
+                console.warn(error.message);
+            }
+        }
     },
     setup() {
         const user = computed(() => store.state.user)
@@ -282,7 +313,7 @@ export default {
         todaysDate.value = todaysDate.value.getUTCDate() + "." + (todaysDate.value.getUTCMonth() + 1) + "." + todaysDate.value.getUTCFullYear();
         const dataTabs = ref([]);
         const dataTasks = ref([]);
-        const dataImages = ref([]);
+        const dataImage = ref([]);
         const dataLoaded = ref(null);
         const hoverTask = ref(true);
 
@@ -310,24 +341,15 @@ export default {
             return () => supabase.removeSubscription(subs);
         };
 
-
-
-
         const getData = async () => {
             try {
                 const { data: tasks_table, error_task } = await supabase.from('tasks_table').select('*').order('task_date', { ascending: true });
                 const { data: tabs_table, error_tabs } = await supabase.from('tabs_table').select('*').order('created_at', { ascending: true });
-                // const { data: data_images, error_images } = await supabase.storage
-                //     .from('images')
-                //     .download('MB8.jpg')
                 if (error_tabs) throw error_tabs;
                 dataTabs.value = tabs_table;
                 if (error_task) throw error_task;
                 dataTasks.value = tasks_table;
-                // if (error_images) throw error_images;
-                // dataImages.value = data_images;
                 dataLoaded.value = true;
-                console.log(dataTasks.value)
             } catch (error) {
                 console.warn(error.message);
             }
@@ -337,10 +359,6 @@ export default {
 
         checkData();
         getData();
-
-        // setInterval(() => {
-        //     checkData()
-        // }, 2000)
 
 
         // createData
@@ -373,15 +391,6 @@ export default {
 
         const removeCreateTask = () => {
             createTask.value = 0
-        }
-
-
-        const openImage = (id) => {
-            imageStatus.value = id;
-        }
-
-        const closeImage = () => {
-            imageStatus.value = null;
         }
 
 
@@ -589,7 +598,7 @@ export default {
                 }, 2000)
             }
         }
-        return { imageStatus, openImage, closeImage, dataImages, viewDate, seeMore, seeMoreHandler, removeEditTask, editedTask, pushEditTask, editTask, ChangeEditTask, okeyHandler, pushTabName, tabNameChanger, changeTabName, deleteTab, user, hoverTask, hoverTaskEnter, hoverTaskLeave, tabName, tasks, statusMsg, errorMsg, createTask, addCreateTask, addCreateTab, removeCreateTab, removeCreateTask, addTask, deleteTask, pushTask, pushTab, createTab, dataLoaded, dataTabs, dataTasks }
+        return { imageStatus, dataImage, viewDate, seeMore, seeMoreHandler, removeEditTask, editedTask, pushEditTask, editTask, ChangeEditTask, okeyHandler, pushTabName, tabNameChanger, changeTabName, deleteTab, user, hoverTask, hoverTaskEnter, hoverTaskLeave, tabName, tasks, statusMsg, errorMsg, createTask, addCreateTask, addCreateTab, removeCreateTab, removeCreateTask, addTask, deleteTask, pushTask, pushTab, createTab, dataLoaded, dataTabs, dataTasks }
     },
 }
 </script>
