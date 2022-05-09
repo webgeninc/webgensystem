@@ -25,6 +25,7 @@ module.exports = {
       },
       colors: {
         webgencol: "#39c684",
+        fbbackground: "#F2F3F5",
       },
       fontFamily: {
         montserrat: ["Montserrat"],

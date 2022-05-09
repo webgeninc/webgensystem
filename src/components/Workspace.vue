@@ -2,7 +2,7 @@
     <div v-if="user" v-dragscroll:nochilddrag
         class="bg-gray-100 w-5/6 p-2 pb-0 flex flex-nowrap overflow-x-auto font-montserrat">
         <!-- Tabela -->
-        <div v-for="(tab, index) in dataTabs" :key="index" class="flex flex-shrink-0 w-86 flex-col m-1">
+        <div v-for="(tab, index) in dataTabs" :key="index" class="flex flex-shrink-0 w-80 flex-col m-1">
             <div v-if="tabNameChanger != tab.id" data-dragscroll class="flex flex-row justify-end text-xs cursor-grab">
                 <p @click="changeTabName(tab.id), focusTab()"
                     class="ml-2 mr-2 text-2xs tracking-wider font-semibold text-gray-600 text-opacity-50 hover:text-opacity-100 transition cursor-pointer">
@@ -64,6 +64,9 @@
                                     class="bg-gray-400 text-gray-50 rounded-2xl text-2xs font-medium transition hover:bg-gray-500 p-0.5 pr-3 pl-3 mr-0.5 ml-0.5">Zobacz
                                     obraz
                                 </button>
+                                <button v-if="imageStatus === task.id" @click="closeImage()"
+                                    class="bg-gray-400 text-gray-50 rounded-2xl text-2xs font-medium transition hover:bg-gray-500 p-0.5 pr-3 pl-3 mr-0.5 ml-0.5">Zamknij
+                                </button>
                             </div>
                             <div v-if="(task.task_desc.length > 140) & (seeMore != task.id)" class="w-full">
                                 <p class="text-sm m-1 font-normal overflow-hidden h-16">{{ task.task_desc }}</p>
@@ -80,7 +83,7 @@
                             <p v-if="task.task_desc.length <= 140" class="text-sm m-1 font-normal">{{ task.task_desc }}
                             </p>
                             <div v-if="task.task_image !== '' && task.task_image !== null">
-                                <img v-if="imageStatus === task.id" @click="closeImage()" ref="imagerPreview"
+                                <img v-if="imageStatus === task.id" @click="socialPostHandler()" ref="imagerPreview"
                                     class="w-full p-px mt-0.5 mb-1.5">
                             </div>
                             <div class="mt-1 flex flex-row justify-between">
@@ -225,6 +228,114 @@
                 </form>
             </div>
         </div>
+        <div v-if="socialPost === true"
+            class="bg-fbbackground absolute top-30 left-30 right-110 bottom-30 rounded-xl shadow-2xl border border-gray-300 flex justify-start items-center overflow-hidden">
+            <div class="w-1/6 h-full"></div>
+            <div class="flex justify-start items-center w-2/3 h-full p-2">
+                <div class="flex flex-col justify-start items-start w-2/5 h-full p-2">
+                    <div class="w-full bg-white border border-black border-opacity-20 rounded-xl p-3 mt-2 shadow-md">
+                        <div class="flex justify-between items-center">
+                            <p class="text-sm font-semibold">Utwórz reklamę</p>
+                            <p class="text-xs text-blue-600">Wyświetl wszystko</p>
+                        </div>
+                        <div class="mt-0.5">
+                            <p class="text-xs text-gray-500">Jak chcesz rozwijać swoją firmę?</p>
+                        </div>
+                        <div class="mt-5">
+                            <p class="text-xs">Utwórz nową reklamę</p>
+                            <p class="text-xs">Utwórz reklamę za pomocą tekstu, zdjęć i filmów, aby wypromować swoją
+                                firmę
+                            </p>
+                        </div>
+                        <div class="w-full h-px bg-gray-300 mt-3 mb-3"></div>
+                        <div class="mt-3">
+                            <p class="text-xs">Promuj post</p>
+                        </div>
+                        <div class="w-full h-px bg-gray-300 mt-3 mb-3"></div>
+                        <div class="mt-3">
+                            <p class="text-xs">Promuj post na Instagramie</p>
+                        </div>
+                        <div class="w-full h-px bg-gray-300 mt-3 mb-3"></div>
+                        <div class="mt-3">
+                            <p class="text-xs">Zautomatyzowane reklamy</p>
+                            <p class="text-xs text-gray-500">Wybierz inny cel biznesowy zautomatyzowanych reklam
+                            </p>
+                        </div>
+                    </div>
+                    <div class=" w-full bg-white border border-black border-opacity-20 rounded-xl p-3 mt-4 shadow-md">
+                        <div class="flex justify-between items-center">
+                            <p class="text-base font-bold">Statystyki</p>
+                            <p class="text-xs text-blue-600">Wyświetl wszystko</p>
+                        </div>
+                        <div class="mt-0.5">
+                            <p class="text-xs text-gray-500">Ostatnie 28 dni : 11 kwi – 8 maj</p>
+                        </div>
+                        <div class="mt-5 flex flex-row justify-between items-center bg-gray-200 rounded-xl p-3">
+                            <p class="text-xs">Liczba odbiorców</p>
+                            <p class="text-base font-bold">1,503
+                            </p>
+                        </div>
+                        <div class="mt-5 flex flex-row justify-between items-center bg-gray-200 rounded-xl p-3">
+                            <p class="text-xs">Aktywność dotycząca postów</p>
+                            <p class="text-base font-bold">96
+                            </p>
+                        </div>
+                        <div class="mt-5 flex flex-row justify-between items-center bg-gray-200 rounded-xl p-3">
+                            <p class="text-xs">Polubienia strony</p>
+                            <p class="text-base font-bold">1
+                            </p>
+                        </div>
+                        <div class="mt-5 flex flex-row justify-between items-center bg-gray-200 rounded-xl p-3">
+                            <p class="text-xs">Kliknięcia oznaczonych produktów</p>
+                            <p class="text-base font-bold">0
+                            </p>
+                        </div>
+                    </div>
+                    <div
+                        class="h-16 w-full bg-white border border-t-black border-opacity-20 rounded-t-xl p-3 mt-4 shadow-md">
+                        <div class="flex justify-between items-center">
+                            <p class="text-base font-bold">Informacje</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-start items-start w-3/5 h-full p-2">
+                    <div class="w-full bg-white border border-black border-opacity-20 rounded-xl mt-2 shadow-md">
+                        <div class="p-4 w-full">
+                            <div class="flex flex-row justify-between items-center w-full">
+                                <div class="w-1/12 rounded-full p-5 bg-black mr-3"></div>
+                                <div class="w-full">
+                                    <p class="text-sm font-medium">Drew-Gór Drzwi</p>
+                                    <p class="text-xs text-gray-400">Opublikowane przez: Użytkownik Strony 6 maja o
+                                        12:00
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pl-4 pr-4 w-full">
+                            <div class="p-0.5">
+                                <p class="text-sm tracking-tight">Przedstawiamy klasyczny, podręcznikowy model skrzydła
+                                    pokojowego.
+                                    DG-XV do kupienia na naszym sklepie 🎩</p>
+                            </div>
+                        </div>
+                        <div>
+                            <img ref="imagerSocialPreview" class="w-full p-px mt-0.5 mb-1.5">
+                        </div>
+                        <div class="w-full h-px bg-gray-300 mt-3 mb-3"></div>
+                        <div class="mt-3">
+                            <p class="text-xs">Promuj post na Instagramie</p>
+                        </div>
+                        <div class="w-full h-px bg-gray-300 mt-3 mb-3"></div>
+                        <div class="mt-3">
+                            <p class="text-xs">Zautomatyzowane reklamy</p>
+                            <p class="text-xs text-gray-500">Wybierz inny cel biznesowy zautomatyzowanych reklam
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-1/6 h-full"></div>
+        </div>
         <div class="h-10 text-xs m-2">
             <div v-if="createTab == null" class="flex h-full justify-center items-center p-2">
                 <button @click="addCreateTab"
@@ -272,6 +383,10 @@ export default {
             setTimeout(() => {
                 this.$refs.tabka.focus();
             }, 100)
+        },
+        socialPostHandler() {
+            this.socialPost = true
+            this.$refs.imagerSocialPreview.src = this.dataImage;
         },
         closeImage() {
             this.imageStatus = null;
@@ -374,6 +489,7 @@ export default {
         const tasks = ref([]);
         const statusMsg = ref(null);
         const errorMsg = ref(null);
+        const socialPost = ref(null);
 
         const seeMoreHandler = (taskID) => {
             if (seeMore.value != taskID) {
@@ -598,7 +714,7 @@ export default {
                 }, 2000)
             }
         }
-        return { imageStatus, dataImage, viewDate, seeMore, seeMoreHandler, removeEditTask, editedTask, pushEditTask, editTask, ChangeEditTask, okeyHandler, pushTabName, tabNameChanger, changeTabName, deleteTab, user, hoverTask, hoverTaskEnter, hoverTaskLeave, tabName, tasks, statusMsg, errorMsg, createTask, addCreateTask, addCreateTab, removeCreateTab, removeCreateTask, addTask, deleteTask, pushTask, pushTab, createTab, dataLoaded, dataTabs, dataTasks }
+        return { socialPost, imageStatus, dataImage, viewDate, seeMore, seeMoreHandler, removeEditTask, editedTask, pushEditTask, editTask, ChangeEditTask, okeyHandler, pushTabName, tabNameChanger, changeTabName, deleteTab, user, hoverTask, hoverTaskEnter, hoverTaskLeave, tabName, tasks, statusMsg, errorMsg, createTask, addCreateTask, addCreateTab, removeCreateTab, removeCreateTask, addTask, deleteTask, pushTask, pushTab, createTab, dataLoaded, dataTabs, dataTasks }
     },
 }
 </script>
