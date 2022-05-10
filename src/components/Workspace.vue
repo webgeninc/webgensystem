@@ -31,7 +31,54 @@
                 <button @click="addCreateTask(tab.id)"
                     class="bg-gray-400 text-white text-lg rounded-full font-medium transition hover:bg-gray-500 pr-4 pl-4 m-0.5">+</button>
             </div>
+            <div v-if="createTask === tab.id" class="w-full bg-gray-200 mt-2 p-2">
+                <form v-for="(item, index) in tasks" :key="index"
+                    @submit.prevent="pushTask(item.task_name, item.task_worker, item.task_desc, item.task_date, item.task_color, tab.id)"
+                    class="flex flex-col justify-center text-xs items-center">
+                    <div class="w-full flex justify-between items-center pl-1 m-1">
 
+                        <h4 class="text-xs m-0.5 pl-1 pr-3 font-semibold uppercase">Nowe zadanie</h4>
+                        <button @click="removeCreateTask"
+                            class="bg-gray-400 text-gray-50 rounded-2xl text-2xs font-medium transition hover:bg-gray-500 p-0.5 pr-3 pl-3 mr-0.5 ml-0.5">Zamknij
+                            okno</button>
+                    </div>
+                    <div class="flex w-full flex-col justify-center items-center p-1">
+                        <div class="flex w-full justify-between items-center m-1 h-6">
+                            <input v-model="item.task_name" autocomplete="off" maxlength="50" minlength="5" required
+                                id="taskName" type="text" placeholder="Nazwa zadania"
+                                class="p-1 w-3/5 text-xs focus:border-gray-400 border-gray-200 border focus:outline-none resize-none" />
+                            <select required v-model="item.task_worker"
+                                class="p-1 w-2/6 text-xs focus:border-gray-400 border-gray-200 border focus:outline-none">
+                                <option value="Ozi">Ozito</option>
+                                <option value="Mati">Matito</option>
+                                <option value="Wszyscy">Wszyscy</option>
+                            </select>
+                        </div>
+                        <textarea v-model="item.task_desc" autocomplete="off" maxlength="500" id="taskDesc" type="text"
+                            placeholder="Opis"
+                            class="w-full h-16 m-1 p-1 text-xs focus:border-gray-400 border-gray-200 border focus:outline-none resize-none" />
+                        <div class="flex flex-row w-full justify-between items-center mt-1 mb-1 text-xs">
+                            <input v-model="item.task_date" type="date"
+                                class="w-1/2 h-6 p-1 focus:border-gray-400 border-gray-200 border focus:outline-none" />
+                            <select required v-model="item.task_color"
+                                class="p-1 w-2/5 h-6 focus:border-gray-400 border-gray-200 border focus:outline-none">
+                                <option value="1">Zadanie</option>
+                                <option value="2">Stop</option>
+                                <option value="3">Weryfikacja</option>
+                                <option value="4">Aktualizacja</option>
+                                <option value="5">Rozpoczęto</option>
+                                <option value="6">Zrobione</option>
+                            </select>
+                        </div>
+                        <div class="flex flex-row w-full justify-around items-center mt-2 text-2xs">
+                            <input v-on:change="imageHandler" ref="imageUpload" id="imageUpload" type="file"
+                                accept="image/*" class="w-full text-2xs p-0 m-1 flex justify-start items-center" />
+                            <button type="submit"
+                                class="bg-gray-400 text-gray-50 rounded-2xl font-medium transition hover:bg-gray-500 p-0.5 pr-3 pl-3 mr-0.5 ml-0.5">Dodaj</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
             <div v-if="dataLoaded" class="flex-nowrap overflow-y-auto">
                 <div v-for="(task, index) in dataTasks" :key="index" class>
                     <div v-if="(editTask != task.id) && (tab.id === task.task_tabid)" @mouseleave="hoverTaskLeave"
@@ -68,6 +115,11 @@
                                     class="bg-gray-400 text-gray-50 rounded-2xl text-2xs font-medium transition hover:bg-gray-500 p-0.5 pr-3 pl-3 mr-0.5 ml-0.5">Zamknij
                                 </button>
                             </div>
+                            <div v-if="task.task_image !== '' && task.task_image !== null">
+                                <img v-if="imageStatus === task.id" @click="socialPostOpener(task.id)"
+                                    ref="imagerPreview"
+                                    class="w-full mt-0.5 mb-1.5 cursor-pointer hover:opacity-80 hover:bg-gray-400">
+                            </div>
                             <div v-if="(task.task_desc.length > 140) & (seeMore != task.id)" class="w-full">
                                 <p class="text-sm m-1 font-normal overflow-hidden h-16">{{ task.task_desc }}</p>
                                 <p @click="seeMoreHandler(task.id)"
@@ -82,11 +134,6 @@
                             </div>
                             <p v-if="task.task_desc.length <= 140" class="text-sm m-1 font-normal">{{ task.task_desc }}
                             </p>
-                            <div v-if="task.task_image !== '' && task.task_image !== null">
-                                <img v-if="imageStatus === task.id" @click="socialPostOpener(task.id)"
-                                    ref="imagerPreview"
-                                    class="w-full p-px mt-0.5 mb-1.5 cursor-pointer hover:opacity-80 hover:bg-gray-400">
-                            </div>
                             <div class="mt-1 flex flex-row justify-between">
                                 <div v-if="task.task_date !== ''" class="flex flex-row">
                                     <p class="text-xs m-1 font-semibold">{{ viewDate(task.task_date) }}</p>
@@ -128,7 +175,7 @@
                         </div>
                     </div>
                     <div v-if="(editTask == task.id) && (tab.id === task.task_tabid)"
-                        class="flex justify-center items-center p-px pt-1 pb-1 w-full">
+                        class="flex justify-center items-center bg-gray-200 p-px pt-1 pb-1 w-full">
                         <form v-for="(item, index) in editedTask" :key="index" @submit.prevent="pushEditTask(task.id)"
                             class="flex flex-col justify-center text-xs items-center">
                             <div class="w-full flex justify-between items-center pl-1 m-1">
@@ -169,8 +216,9 @@
                                 </div>
 
                                 <div class="flex flex-row w-full justify-around items-center mt-2 text-2xs">
-                                    <input ref="imageUpload" id="imageUpload" type="file" accept="image/*"
-                                        class="w-full text-2xs p-0 m-1 flex justify-start items-center  opacity-30 pointer-events-none" />
+                                    <input v-on:change="imageHandler" ref="imageUpload" id="imageUpload" type="file"
+                                        accept="image/*"
+                                        class="w-full text-2xs p-0 m-1 flex justify-start items-center" />
                                     <button type="submit"
                                         class="bg-gray-400 text-gray-50 rounded-2xl font-medium transition hover:bg-gray-500 p-0.5 pr-3 pl-3 mr-0.5 ml-0.5">Dodaj</button>
                                 </div>
@@ -178,55 +226,6 @@
                         </form>
                     </div>
                 </div>
-            </div>
-            <div v-if="createTask === tab.id" class="w-full bg-gray-200 mt-2 p-2">
-                <form v-for="(item, index) in tasks" :key="index"
-                    @submit.prevent="pushTask(item.task_name, item.task_worker, item.task_desc, item.task_date, item.task_color, tab.id)"
-                    class="flex flex-col justify-center text-xs items-center">
-                    <div class="w-full flex justify-between items-center pl-1 m-1">
-
-                        <h4 class="text-xs m-0.5 pl-1 pr-3 font-semibold uppercase">Nowe zadanie</h4>
-                        <button @click="removeCreateTask"
-                            class="bg-gray-400 text-gray-50 rounded-2xl text-2xs font-medium transition hover:bg-gray-500 p-0.5 pr-3 pl-3 mr-0.5 ml-0.5">Zamknij
-                            okno</button>
-                    </div>
-                    <div class="flex w-full flex-col justify-center items-center p-1">
-                        <div class="flex w-full justify-between items-center m-1 h-6">
-                            <input v-model="item.task_name" autocomplete="off" maxlength="50" minlength="5" required
-                                id="taskName" type="text" placeholder="Nazwa zadania"
-                                class="p-1 w-3/5 text-xs focus:border-gray-400 border-gray-200 border focus:outline-none resize-none" />
-                            <select required v-model="item.task_worker"
-                                class="p-1 w-2/6 text-xs focus:border-gray-400 border-gray-200 border focus:outline-none">
-                                <option value="Ozi">Ozito</option>
-                                <option value="Mati">Matito</option>
-                                <option value="Wszyscy">Wszyscy</option>
-                            </select>
-                        </div>
-                        <textarea v-model="item.task_desc" autocomplete="off" maxlength="500" id="taskDesc" type="text"
-                            placeholder="Opis"
-                            class="w-full h-16 m-1 p-1 text-xs focus:border-gray-400 border-gray-200 border focus:outline-none resize-none" />
-                        <div class="flex flex-row w-full justify-between items-center mt-1 mb-1 text-xs">
-                            <input v-model="item.task_date" type="date"
-                                class="w-1/2 h-6 p-1 focus:border-gray-400 border-gray-200 border focus:outline-none" />
-                            <select required v-model="item.task_color"
-                                class="p-1 w-2/5 h-6 focus:border-gray-400 border-gray-200 border focus:outline-none">
-                                <option value="1">Zadanie</option>
-                                <option value="2">Stop</option>
-                                <option value="3">Weryfikacja</option>
-                                <option value="4">Aktualizacja</option>
-                                <option value="5">Rozpoczęto</option>
-                                <option value="6">Zrobione</option>
-                            </select>
-                        </div>
-
-                        <div class="flex flex-row w-full justify-around items-center mt-2 text-2xs">
-                            <input ref="imageUpload" id="imageUpload" type="file" accept="image/*"
-                                class="w-full text-2xs p-0 m-1 flex justify-start items-center  opacity-30 pointer-events-none" />
-                            <button type="submit"
-                                class="bg-gray-400 text-gray-50 rounded-2xl font-medium transition hover:bg-gray-500 p-0.5 pr-3 pl-3 mr-0.5 ml-0.5">Dodaj</button>
-                        </div>
-                    </div>
-                </form>
             </div>
         </div>
         <div v-if="socialPost !== null"
@@ -314,7 +313,7 @@
                                 <div class="w-1/12 rounded-full p-5 2xl:p-6 3xl:p-6 bg-black bg-opacity-80 mr-3"></div>
                                 <div class="w-full h-full flex flex-col items-start justify-center pb-1">
                                     <p class="text-xs 2xl:text-sm 3xl:text-base tracking-tight font-sans font-medium">
-                                        Drew-Gór Drzwi
+                                        Strona Firmy
                                     </p>
                                     <p
                                         class="text-2xs 2xl:text-2xs 3xl:text-xs text-gray-400 tracking-tight font-sans font-normal">
@@ -335,7 +334,8 @@
                             </div>
                         </div>
                         <div>
-                            <img ref="imagerSocialPreview" class="w-full pt-0.5 pb-0.5 mt-0.5 mb-1.5">
+                            <img ref="imagerSocialPreview"
+                                class="w-full mt-1 mb-2 border-t border-b border-black border-opacity-20">
                         </div>
                         <div class="flex flex-row justify-between items-center pl-2 pr-2 3xl:pr-4 3xl:pl-4 mt-4 mb-4">
                             <div class="flex flex-col justify-center items-start">
@@ -445,6 +445,12 @@ export default {
             }, 500);
 
         },
+        imageHandler(item) {
+            if (item.target.files[0] !== null) {
+                this.fileDataTask = item.target.files[0]
+            }
+
+        },
         socialPostCloser() {
             this.socialPost = null
             this.$refs.imagerSocialPreview.src = null
@@ -550,6 +556,7 @@ export default {
         const statusMsg = ref(null);
         const errorMsg = ref(null);
         const socialPost = ref(null);
+        const fileDataTask = ref(null)
 
         const seeMoreHandler = (taskID) => {
             if (seeMore.value != taskID) {
@@ -587,12 +594,34 @@ export default {
         };
 
         const deleteTask = async (taskID) => {
+
+            let imageToRemove = null;
+
+            for (let indx = 0; indx < dataTasks.value.length; indx++) {
+                if (dataTasks.value[indx].id === taskID) {
+                    imageToRemove = dataTasks.value[indx].task_image;
+                }
+            }
+            if (imageToRemove !== null) {
+                try {
+                    const { errorr } = await supabase.storage
+                        .from('images').remove([imageToRemove])
+                    if (errorr) throw errorr;
+                }
+
+                catch (errorr) {
+                    console.log(errorr.message)
+                }
+            }
+
+
             try {
                 const { error } = await supabase.from('tasks_table').delete().eq("id", taskID)
                 if (error) throw error;
             } catch (error) {
                 console.warn(error.message);
             }
+
         };
 
         const addCreateTask = (tabID) => {
@@ -615,8 +644,9 @@ export default {
                     id: null,
                     task_name: "",
                     task_desc: "",
-                    task_date: null,
+                    task_date: "",
                     task_worker: "",
+                    task_image: null,
                     task_color: null,
                 }
                 );
@@ -657,6 +687,7 @@ export default {
             for (let index = 0; index < dataTasks.value.length; index++) {
                 if (dataTasks.value[index].id === taskID) {
                     editedTask.value.push(dataTasks.value[index]);
+                    fileDataTask.value = dataTasks.value[index].task_image === null ? null : dataTasks.value[index].task_image
                 }
             }
         }
@@ -669,6 +700,7 @@ export default {
                     "task_color": editedTask.value[0].task_color,
                     "task_name": editedTask.value[0].task_name,
                     "task_desc": editedTask.value[0].task_desc,
+                    "task_image": fileDataTask.value === null ? null : fileDataTask.value.name,
                     "task_date": editedTask.value[0].task_date,
                 }).eq("id", taskID)
                 seeMore.value = null;
@@ -684,6 +716,20 @@ export default {
             }
             catch (error) {
                 console.log(error.message)
+            }
+            if (fileDataTask.value !== null) {
+                try {
+                    const { errorr } = await supabase.storage
+                        .from('images')
+                        .upload(fileDataTask.value.name, fileDataTask.value)
+
+                    if (errorr) throw errorr;
+                }
+
+                catch (errorr) {
+                    console.log(errorr.message)
+                }
+                fileDataTask.value = null
             }
         }
 
@@ -714,18 +760,18 @@ export default {
         }
 
         const viewDate = (date) => {
-            let dy = date.charAt(8) + date.charAt(9);
-            let mon = date.charAt(5) + date.charAt(6);
-            let yrr = date.charAt(0) + date.charAt(1) + date.charAt(2) + date.charAt(3);
-            return (dy + "." + mon + "." + yrr);
+            if (date !== null) {
+                let dy = date.charAt(8) + date.charAt(9);
+                let mon = date.charAt(5) + date.charAt(6);
+                let yrr = date.charAt(0) + date.charAt(1) + date.charAt(2) + date.charAt(3);
+                return (dy + "." + mon + "." + yrr);
+            }
+            else return "Bez daty"
         }
 
         const pushTask = async (taskk, workerr, descc, datee, colorr, tabID) => {
             createTask.value = null;
-
-
-            // let newTasks = ref([]);
-
+            console.log(fileDataTask.value)
             try {
                 const { error } = await supabase
                     .from('tasks_table')
@@ -736,6 +782,7 @@ export default {
                             "task_name": taskk,
                             "task_desc": descc,
                             "task_date": datee,
+                            "task_image": fileDataTask.value === null ? null : fileDataTask.value.name,
                             "task_tabid": tabID,
                         },
                     ])
@@ -744,6 +791,23 @@ export default {
             catch (error) {
                 console.log(error.message)
             }
+            if (fileDataTask.value !== null) {
+                try {
+                    const { errorr } = await supabase.storage
+                        .from('images')
+                        .upload(fileDataTask.value.name, fileDataTask.value)
+
+                    if (errorr) throw errorr;
+                }
+
+                catch (errorr) {
+                    console.log(errorr.message)
+                }
+                fileDataTask.value = null
+            }
+
+
+
             setTimeout(() => {
                 okeyHandler.value = false;
             }, 1000)
@@ -774,7 +838,7 @@ export default {
                 }, 2000)
             }
         }
-        return { socialPost, imageStatus, dataImage, viewDate, seeMore, seeMoreHandler, removeEditTask, editedTask, pushEditTask, editTask, ChangeEditTask, okeyHandler, pushTabName, tabNameChanger, changeTabName, deleteTab, user, hoverTask, hoverTaskEnter, hoverTaskLeave, tabName, tasks, statusMsg, errorMsg, createTask, addCreateTask, addCreateTab, removeCreateTab, removeCreateTask, addTask, deleteTask, pushTask, pushTab, createTab, dataLoaded, dataTabs, dataTasks }
+        return { fileDataTask, socialPost, imageStatus, dataImage, viewDate, seeMore, seeMoreHandler, removeEditTask, editedTask, pushEditTask, editTask, ChangeEditTask, okeyHandler, pushTabName, tabNameChanger, changeTabName, deleteTab, user, hoverTask, hoverTaskEnter, hoverTaskLeave, tabName, tasks, statusMsg, errorMsg, createTask, addCreateTask, addCreateTab, removeCreateTab, removeCreateTask, addTask, deleteTask, pushTask, pushTab, createTab, dataLoaded, dataTabs, dataTasks }
     },
 }
 </script>
