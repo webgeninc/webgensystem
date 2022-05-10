@@ -84,7 +84,8 @@
                             </p>
                             <div v-if="task.task_image !== '' && task.task_image !== null">
                                 <img v-if="imageStatus === task.id" @click="socialPostOpener(task.id)"
-                                    ref="imagerPreview" class="w-full p-px mt-0.5 mb-1.5">
+                                    ref="imagerPreview"
+                                    class="w-full p-px mt-0.5 mb-1.5 cursor-pointer hover:opacity-80 hover:bg-gray-400">
                             </div>
                             <div class="mt-1 flex flex-row justify-between">
                                 <div v-if="task.task_date !== ''" class="flex flex-row">
@@ -229,136 +230,156 @@
             </div>
         </div>
         <div v-if="socialPost !== null"
+            class="absolute top-0 bottom-0 left-0 right-1/6 bg-white bg-opacity-80 pointer-events-auto"></div>
+        <div v-if="socialPost !== null"
             class="bg-fbbackground absolute top-30 left-30 right-110 bottom-30 rounded-xl shadow-2xl border border-gray-300 flex justify-start items-center overflow-hidden">
-            <div class="w-1/6 h-full"></div>
-            <div class="flex justify-start items-center w-2/3 h-full">
-                <div class="flex flex-col justify-start items-start w-2/5 h-full p-2">
-                    <div class="w-full bg-white border border-black border-opacity-20 rounded-xl p-3 mt-2 shadow-md">
-                        <div class="flex justify-between items-center">
-                            <p class="text-sm font-semibold">Utwórz reklamę</p>
-                            <p class="text-xs text-webgencol">Wyświetl wszystko</p>
+            <div class="w-1/7 3xl:w-2/7 flex-shrink-0 h-full">
+                <p class="text-2xs 2xl:text-xs 3xl:text-sm font-medium p-5 tracking-wider">Social Media 0.13.00</p>
+            </div>
+            <div class="flex justify-start items-center w-3/4 3xl:w-2/3 h-full">
+                <div class="flex flex-col justify-start items-start w-1/2 3xl:w-2/5 h-full p-2">
+                    <div class="w-full bg-white border border-black border-opacity-20 rounded-xl p-3 mt-1 shadow-md">
+                        <div class="flex justify-between items-start">
+                            <p class="text-2xs 2xl:text-xs 3xl:text-sm font-semibold flex-1">Utwórz reklamę</p>
+                            <p class="text-2xs 2xl:text-xs 3xl:text-xs text-webgencol">Wyświetl wszystko</p>
                         </div>
                         <div class="mt-0.5">
-                            <p class="text-xs text-gray-500">Jak chcesz rozwijać swoją firmę?</p>
+                            <p class="text-2xs 2xl:text-xs 3xl:text-sm text-gray-500">Jak chcesz rozwijać swoją firmę?
+                            </p>
                         </div>
                         <div class="mt-5">
-                            <p class="text-xs">Utwórz nową reklamę</p>
-                            <p class="text-xs">Utwórz reklamę za pomocą tekstu, zdjęć i filmów, aby wypromować swoją
+                            <p class="text-2xs 2xl:text-xs 3xl:text-sm font-medium">Utwórz nową reklamę</p>
+                            <p class="text-2xs 2xl:text-xs 3xl:text-xs">Utwórz reklamę za pomocą tekstu, zdjęć i filmów,
+                                aby wypromować swoją
                                 firmę
                             </p>
                         </div>
                         <div class="w-full h-px bg-gray-300 mt-3 mb-3"></div>
                         <div class="mt-3">
-                            <p class="text-xs">Promuj post</p>
+                            <p class="text-2xs 2xl:text-xs 3xl:text-sm">Promuj post</p>
                         </div>
                         <div class="w-full h-px bg-gray-300 mt-3 mb-3"></div>
                         <div class="mt-3">
-                            <p class="text-xs">Promuj post na Instagramie</p>
+                            <p class="text-2xs 2xl:text-xs 3xl:text-sm">Promuj post na Instagramie</p>
                         </div>
                         <div class="w-full h-px bg-gray-300 mt-3 mb-3"></div>
                         <div class="mt-3">
-                            <p class="text-xs">Zautomatyzowane reklamy</p>
-                            <p class="text-xs text-gray-500">Wybierz inny cel biznesowy zautomatyzowanych reklam
+                            <p class="text-2xs 2xl:text-xs 3xl:text-sm">Zautomatyzowane reklamy</p>
+                            <p class="text-2xs 2xl:text-xs 3xl:text-xs text-gray-500">Wybierz inny cel biznesowy
+                                zautomatyzowanych reklam
                             </p>
                         </div>
                     </div>
-                    <div class=" w-full bg-white border border-black border-opacity-20 rounded-xl p-3 mt-4 shadow-md">
+                    <div class=" w-full bg-white border border-black border-opacity-20 rounded-xl p-3 mt-5 shadow-md">
                         <div class="flex justify-between items-center">
-                            <p class="text-base font-bold">Statystyki</p>
-                            <p class="text-xs text-webgencol">Wyświetl wszystko</p>
+                            <p class="text-2xs 2xl:text-xs 3xl:text-sm font-bold">Statystyki</p>
+                            <p class="text-2xs 2xl:text-xs 3xl:text-xs text-webgencol">Wyświetl wszystko</p>
                         </div>
                         <div class="mt-0.5">
-                            <p class="text-xs text-gray-500">Ostatnie 28 dni : 11 kwi – 8 maj</p>
-                        </div>
-                        <div class="mt-4 flex flex-row justify-between items-center bg-gray-200 rounded-lg p-3">
-                            <p class="text-xs">Liczba odbiorców</p>
-                            <p class="text-base font-bold">1,503
+                            <p class="text-2xs 2xl:text-xs 3xl:text-xs text-gray-500">Ostatnie 28 dni : 11 kwi – 8 maj
                             </p>
                         </div>
                         <div class="mt-4 flex flex-row justify-between items-center bg-gray-200 rounded-lg p-3">
-                            <p class="text-xs">Aktywność dotycząca postów</p>
-                            <p class="text-base font-bold">96
+                            <p class="text-2xs 2xl:text-xs 3xl:text-xs">Liczba odbiorców</p>
+                            <p class="text-2xs 2xl:text-xs 3xl:text-sm font-bold">1,503
                             </p>
                         </div>
                         <div class="mt-4 flex flex-row justify-between items-center bg-gray-200 rounded-lg p-3">
-                            <p class="text-xs">Polubienia strony</p>
-                            <p class="text-base font-bold">1
+                            <p class="text-2xs 2xl:text-xs 3xl:text-xs">Aktywność dotycząca postów</p>
+                            <p class="text-2xs 2xl:text-xs 3xl:text-sm font-bold">96
                             </p>
                         </div>
                         <div class="mt-4 flex flex-row justify-between items-center bg-gray-200 rounded-lg p-3">
-                            <p class="text-xs">Kliknięcia oznaczonych produktów</p>
-                            <p class="text-base font-bold">0
+                            <p class="text-2xs 2xl:text-xs 3xl:text-xs">Polubienia strony</p>
+                            <p class="text-2xs 2xl:text-xs 3xl:text-sm font-bold">1
+                            </p>
+                        </div>
+                        <div class="mt-4 flex flex-row justify-between items-center bg-gray-200 rounded-lg p-3">
+                            <p class="text-2xs 2xl:text-xs 3xl:text-xs">Kliknięcia oznaczonych produktów</p>
+                            <p class="text-2xs 2xl:text-xs 3xl:text-sm font-bold">0
                             </p>
                         </div>
                     </div>
                     <div
-                        class="h-16 w-full bg-white border border-t-black border-opacity-20 rounded-t-xl p-3 mt-4 shadow-md">
-                        <div class="flex justify-between items-center">
-                            <p class="text-base font-bold">Informacje</p>
+                        class="h-16 w-full bg-white border-t border-l border-r border-black border-opacity-20 rounded-t-xl p-3 mt-5 shadow-md">
+                        <div class="flex justify-between items-center bg-white">
+                            <p class="text-2xs 2xl:text-xs 3xl:text-sm font-bold bg-white">Informacje</p>
                         </div>
                     </div>
                 </div>
-                <div class="flex justify-start items-start w-3/5 h-full p-2">
+                <div class="flex justify-start items-start w-3/4 3xl:w-3/5 h-full p-2 mt-6">
                     <div class="w-full bg-white border border-black border-opacity-20 rounded-xl mt-2 shadow-md">
-                        <div class="p-3 pb-3 w-full">
+                        <div class="p-2 pb-3 2xl:p-3 3xl:p-4 3xl:pb-4 w-full">
                             <div class="flex flex-row justify-between items-center w-full">
-                                <div class="w-1/12 rounded-full p-5 bg-black mr-3"></div>
-                                <div class="w-full">
-                                    <p class="text-sm tracking-tight font-sans font-medium">Drew-Gór Drzwi
+                                <div class="w-1/12 rounded-full p-5 2xl:p-6 3xl:p-6 bg-black bg-opacity-80 mr-3"></div>
+                                <div class="w-full h-full flex flex-col items-start justify-center pb-1">
+                                    <p class="text-xs 2xl:text-sm 3xl:text-base tracking-tight font-sans font-medium">
+                                        Drew-Gór Drzwi
                                     </p>
-                                    <p class="text-xs text-gray-400 tracking-tight font-sans font-normal">Opublikowane
+                                    <p
+                                        class="text-2xs 2xl:text-2xs 3xl:text-xs text-gray-400 tracking-tight font-sans font-normal">
+                                        Opublikowane
                                         przez: Użytkownik Strony
                                         {{ socialPost.date }} o 12:00
                                     </p>
                                 </div>
                             </div>
                         </div>
-                        <div class="pl-4 pr-3 w-full">
+                        <div class="pl-3 pr-3 3xl:pl-4 3xl:pr-4 w-full">
                             <div class="mb-2">
-                                <p class="text-base tracking-tight font-sans font-normal leading-snug">{{
-                                        socialPost.desc
-                                }}</p>
+                                <p
+                                    class="text-xs 2xl:text-sm 3xl:text-base tracking-tight font-sans font-normal leading-tight">
+                                    {{
+                                            socialPost.desc
+                                    }}</p>
                             </div>
                         </div>
                         <div>
                             <img ref="imagerSocialPreview" class="w-full pt-0.5 pb-0.5 mt-0.5 mb-1.5">
                         </div>
-                        <div class="flex flex-row justify-between items-center pr-4 pl-4 mt-3 mb-3">
+                        <div class="flex flex-row justify-between items-center pl-2 pr-2 3xl:pr-4 3xl:pl-4 mt-4 mb-4">
                             <div class="flex flex-col justify-center items-start">
-                                <p class="text-sm font-medium">523</p>
-                                <p class="text-xs font-normal">Liczba odbiorców</p>
+                                <p
+                                    class="text-2xs 2xl:text-xs 3xl:text-sm font-medium tracking-tighter 3xl:tracking-normal">
+                                    523</p>
+                                <p
+                                    class="text-2xs 2xl:text-xs 3xl:text-xs font-normal tracking-tighter 3xl:tracking-normal">
+                                    Liczba odbiorców</p>
                             </div>
                             <div class="flex flex-col justify-center items-start">
-                                <p class="text-sm font-medium">23</p>
-                                <p class="text-xs font-normal">Aktywność</p>
+                                <p
+                                    class="text-2xs 2xl:text-xs 3xl:text-sm font-medium tracking-tighter 3xl:tracking-normal">
+                                    23</p>
+                                <p
+                                    class="text-2xs 2xl:text-xs 3xl:text-xs font-normal tracking-tighter 3xl:tracking-normal">
+                                    Aktywność</p>
                             </div>
                             <div class="flex flex-col justify-center items-start">
-                                <p class="text-sm font-medium">Średni +1,0x</p>
-                                <p class="text-xs font-normal">Wynik dystrybucji</p>
+                                <p
+                                    class="text-2xs 2xl:text-xs 3xl:text-sm font-medium tracking-tighter 3xl:tracking-normal">
+                                    Średni +1,0x</p>
+                                <p
+                                    class="text-2xs 2xl:text-xs 3xl:text-xs font-normal tracking-tighter 3xl:tracking-normal">
+                                    Wynik dystrybucji</p>
                             </div>
                             <div class="flex flex-col justify-center items-center">
-                                <div class="bg-webgencol rounded-md p-2 pr-2.5 pl-2.5">
-                                    <p class="text-white text-sm font-medium">Promuj post</p>
+                                <div class="bg-webgencol rounded-md p-1 pr-1.5 pl-1.5 3xl:p-2 3xl:pr-2.5 3xl:pl-2.5">
+                                    <p class="text-white text-2xs 2xl:text-xs 3xl:text-sm font-medium">Promuj post</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="w-full h-px bg-gray-300 mt-3 mb-3"></div>
-                        <div class="mt-3">
-                            <p class="text-xs">Promuj post na Instagramie</p>
-                        </div>
-                        <div class="w-full h-px bg-gray-300 mt-3 mb-3"></div>
-                        <div class="mt-3">
-                            <p class="text-xs">Zautomatyzowane reklamy</p>
-                            <p class="text-xs text-gray-500">Wybierz inny cel biznesowy zautomatyzowanych reklam
-                            </p>
+                        <div class="w-full h-px bg-gray-300 mt-3 mb-8"></div>
+                        <div class="w-full h-full flex justify-center items-center m-3 mb-10">
+                            <p class="text-sm 2xl:text-base 3xl:text-lg font-normal">Wczytywanie
+                                zdjęcia...</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="w-1/6 h-full">
+            <div class="flex-grow flex-shrink h-full">
                 <div class="flex justify-end items-start p-5">
                     <button @click="socialPostCloser()"
-                        class="bg-gray-400 text-gray-50 rounded-2xl font-medium transition hover:bg-gray-500 p-0.5 pr-3 pl-3 mr-0.5 ml-0.5">Zamknij</button>
+                        class="bg-gray-400 text-gray-50 text-2xs 2xl:text-xs 3xl:text-sm rounded-2xl font-medium transition hover:bg-gray-500 p-0.5 pr-3 pl-3 mr-0.5 ml-0.5">Zamknij</button>
                 </div>
             </div>
         </div>
@@ -421,7 +442,7 @@ export default {
             }
             setTimeout(() => {
                 this.$refs.imagerSocialPreview.src = this.dataImage;
-            }, 1000);
+            }, 500);
 
         },
         socialPostCloser() {
