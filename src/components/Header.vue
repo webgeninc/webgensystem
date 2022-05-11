@@ -655,7 +655,7 @@ export default {
         let dayOfDate = ref(now.getDate());
         let monthOfDate = ref(now.getMonth());
         let yearNow = ref(now.getFullYear())
-        const version = ref("0.7.60")
+        const version = ref("0.8.00")
 
 
         if (monthOfDate.value < 2) {

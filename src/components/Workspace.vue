@@ -1,8 +1,8 @@
 <template>
     <div v-if="user" v-dragscroll:nochilddrag
-        class="bg-gray-100 w-5/6 p-2 pb-0 flex flex-nowrap overflow-x-auto font-montserrat">
+        class="bg-gray-100 w-5/6 p-2 pb-0 flex flex-nowrap overflow-x-auto font-montserrat ">
         <!-- Tabela -->
-        <div v-for="(tab, index) in dataTabs" :key="index" class="flex flex-shrink-0 w-80 flex-col m-1">
+        <div v-for="(tab, index) in dataTabs" :key="index" class="flex flex-shrink-0 w-80 flex-col m-1 ">
             <div v-if="tabNameChanger != tab.id" data-dragscroll class="flex flex-row justify-end text-xs cursor-grab">
                 <p @click="changeTabName(tab.id), focusTab()"
                     class="ml-2 mr-2 text-2xs tracking-wider font-semibold text-gray-600 text-opacity-50 hover:text-opacity-100 transition cursor-pointer">
@@ -31,7 +31,7 @@
                 <button @click="addCreateTask(tab.id)"
                     class="bg-gray-400 text-white text-lg rounded-full font-medium transition hover:bg-gray-500 pr-4 pl-4 m-0.5">+</button>
             </div>
-            <div v-if="createTask === tab.id" class="w-full bg-gray-200 mt-2 p-2">
+            <div v-if="createTask === tab.id" class="w-full bg-gray-200 mt-2 p-2 scrollbar-none !scrollbar-thumb-indigo-500">
                 <form v-for="(item, index) in tasks" :key="index"
                     @submit.prevent="pushTask(item.task_name, item.task_worker, item.task_desc, item.task_date, item.task_color, tab.id)"
                     class="flex flex-col justify-center text-xs items-center">
@@ -79,7 +79,7 @@
                     </div>
                 </form>
             </div>
-            <div v-if="dataLoaded" class="flex-nowrap overflow-y-auto">
+            <div v-if="dataLoaded" class="flex-nowrap overflow-y-auto scrollbar-thin">
                 <div v-for="(task, index) in dataTasks" :key="index" class>
                     <div v-if="(editTask != task.id) && (tab.id === task.task_tabid)" @mouseleave="hoverTaskLeave"
                         class="overflow-hidden flex bg-gray-50 shadow-md mb-1 mt-1 pt-1">
@@ -116,9 +116,15 @@
                                 </button>
                             </div>
                             <div v-if="task.task_image !== '' && task.task_image !== null">
+                            <div class="flex justify-center items-center">
+                                <div v-if="imageStatus === task.id && imageDataLoaded !== true" class="mt-4 mb-2 w-1 h-1 rounded-full p-4 bg-gradient-to-t from-gray-400 via-gray-50 to-gray-50 flex justify-center items-center animate-spin">
+                                    <div class="w-1 h-1 rounded-full p-3 bg-gray-100">
+                                    </div>
+                                </div>
+                                </div>
                                 <img v-if="imageStatus === task.id" @click="socialPostOpener(task.id)"
                                     ref="imagerPreview"
-                                    class="w-full mt-0.5 mb-1.5 cursor-pointer hover:opacity-80 hover:bg-gray-400">
+                                    class="w-full mt-1 mb-2 cursor-pointer hover:opacity-80 hover:bg-gray-400">
                             </div>
                             <div v-if="(task.task_desc.length > 140) & (seeMore != task.id)" class="w-full">
                                 <p class="text-sm m-1 font-normal overflow-hidden h-16">{{ task.task_desc }}</p>
@@ -442,7 +448,7 @@ export default {
             }
             setTimeout(() => {
                 this.$refs.imagerSocialPreview.src = this.dataImage;
-            }, 500);
+            }, 200);
 
         },
         imageHandler(item) {
@@ -460,8 +466,10 @@ export default {
             this.imageStatus = null;
             this.$refs.imagerPreview.src = null;
             this.dataImage = null
+            this.imageDataLoaded = false
         },
         openImage(id) {
+            this.imageDataLoaded = false
             this.imageStatus = id;
             this.getImageData(id)
         },
@@ -482,6 +490,7 @@ export default {
                 if (error_images) throw error_images;
                 this.dataImage = URL.createObjectURL(new Blob([data_images], { type: "image/jpeg" }));
                 this.previewImage();
+                this.imageDataLoaded = true
             }
             catch (error) {
                 console.warn(error.message);
@@ -496,6 +505,7 @@ export default {
         const dataTasks = ref([]);
         const dataImage = ref([]);
         const dataLoaded = ref(null);
+        const imageDataLoaded = ref(null);
         const hoverTask = ref(true);
 
         const hoverTaskEnter = (id) => {
@@ -838,7 +848,7 @@ export default {
                 }, 2000)
             }
         }
-        return { fileDataTask, socialPost, imageStatus, dataImage, viewDate, seeMore, seeMoreHandler, removeEditTask, editedTask, pushEditTask, editTask, ChangeEditTask, okeyHandler, pushTabName, tabNameChanger, changeTabName, deleteTab, user, hoverTask, hoverTaskEnter, hoverTaskLeave, tabName, tasks, statusMsg, errorMsg, createTask, addCreateTask, addCreateTab, removeCreateTab, removeCreateTask, addTask, deleteTask, pushTask, pushTab, createTab, dataLoaded, dataTabs, dataTasks }
+        return {imageDataLoaded, fileDataTask, socialPost, imageStatus, dataImage, viewDate, seeMore, seeMoreHandler, removeEditTask, editedTask, pushEditTask, editTask, ChangeEditTask, okeyHandler, pushTabName, tabNameChanger, changeTabName, deleteTab, user, hoverTask, hoverTaskEnter, hoverTaskLeave, tabName, tasks, statusMsg, errorMsg, createTask, addCreateTask, addCreateTab, removeCreateTab, removeCreateTask, addTask, deleteTask, pushTask, pushTab, createTab, dataLoaded, dataTabs, dataTasks }
     },
 }
 </script>

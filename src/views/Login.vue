@@ -52,7 +52,7 @@ export default {
     const errorMsg = ref(null);
     let niceMsg = ref("Miłego dnia:)");
     const router = useRouter();
-    let version = ref("0.7.60")
+    let version = ref("0.8.00")
 
 
 
