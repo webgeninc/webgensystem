@@ -79,8 +79,8 @@
                     </div>
                 </form>
             </div>
-            <div v-if="dataLoaded" class="flex-nowrap overflow-y-auto scrollbar-thin">
-                <div v-for="(task, index) in dataTasks" :key="index" class>
+            <div v-if="dataLoaded" class="h-full flex-nowrap overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-200 scrollbar-thumb-rounded-full scrollbar-track-rounded-full pr-2">
+                <div v-for="(task, index) in dataTasks" :key="index" >
                     <div v-if="(editTask != task.id) && (tab.id === task.task_tabid)" @mouseleave="hoverTaskLeave"
                         class="overflow-hidden flex bg-gray-50 shadow-md mb-1 mt-1 pt-1">
                         <div v-if="(task.task_color === 3)" class="bg-yellow-600 w-1.5"></div>
