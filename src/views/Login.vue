@@ -23,17 +23,17 @@
             class="mr-10 ml-10 mt-3 p-3 border text-gray-900 border-gray-400 rounded-xl focus:border-webgencol focus:outline-none" />
           <input required id="password" type="password" placeholder="hasło" v-model="password"
             class="mr-10 mt-5 ml-10 p-3 mb-3 border-gray-400 border rounded-xl focus:border-webgencol focus:outline-none" />
+          <button type="submit" @click="loginClick"
+            class="self-center mt-2 mb-5 p-2 pr-8 pl-8 bg-gray-200 rounded-xl transition hover:bg-webgencol hover:text-white">Zaloguj
+            się</button>
           <div v-if="errorMsg"
-            class="flex justify-center items-center text-justify font-medium tracking-wider text-red-600 text-xs pr-14 pl-14">
+            class="flex justify-center items-center text-justify font-medium tracking-wider text-red-600 text-xs pr-14 pl-14 mb-5">
             <p>{{ errorMsg }}</p>
           </div>
           <div v-if="niceMsg"
-            class="flex justify-center items-center text-justify font-medium tracking-wider text-webgencol text-xs pr-14 pl-14">
+            class="flex justify-center items-center text-justify font-medium tracking-wider text-webgencol text-xs pr-14 pl-14 mb-5">
             <p>Miłego dnia :)</p>
           </div>
-          <button type="submit" @click="loginClick"
-            class="self-center mt-5 mb-7 p-2 pr-8 pl-8 bg-gray-200 rounded-xl transition hover:bg-webgencol hover:text-white">Zaloguj
-            się</button>
         </form>
       </div>
     </div>
