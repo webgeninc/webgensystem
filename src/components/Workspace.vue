@@ -478,11 +478,7 @@ export default {
         },
         async getImageData(id) {
             let imageName = null;
-            for (let i = 0; i < this.dataTasks.length; i++) {
-                if (this.dataTasks[i].id === id) {
-                    imageName = this.dataTasks[i].task_image;
-                }
-            }
+            imageName = this.dataTasks.filter(item => item.id === id).map(item => item.task_image)[0]
             try {
                 const { data: data_images, error_images } = await supabase.storage
                     .from('images')
@@ -569,12 +565,7 @@ export default {
         const fileDataTask = ref(null)
 
         const seeMoreHandler = (taskID) => {
-            if (seeMore.value != taskID) {
-                seeMore.value = taskID;
-            }
-            else if (seeMore.value == taskID) {
-                seeMore.value = null;
-            }
+            seeMore.value != taskID ? seeMore.value = taskID : seeMore.value = null;
         }
 
         const removeCreateTab = () => {
@@ -603,30 +594,23 @@ export default {
             else return
         };
 
-        const deleteTask = async (taskID) => {
-
+        const deleteTask = async (id) => {
             let imageToRemove = null;
-
-            for (let indx = 0; indx < dataTasks.value.length; indx++) {
-                if (dataTasks.value[indx].id === taskID) {
-                    imageToRemove = dataTasks.value[indx].task_image;
-                }
-            }
+            imageToRemove = dataTasks.value.filter(item => item.id === id).map(item => item.task_image)[0]
+            
             if (imageToRemove !== null) {
                 try {
                     const { errorr } = await supabase.storage
                         .from('images').remove([imageToRemove])
                     if (errorr) throw errorr;
                 }
-
                 catch (errorr) {
                     console.log(errorr.message)
                 }
             }
 
-
             try {
-                const { error } = await supabase.from('tasks_table').delete().eq("id", taskID)
+                const { error } = await supabase.from('tasks_table').delete().eq("id", id)
                 if (error) throw error;
             } catch (error) {
                 console.warn(error.message);
@@ -781,7 +765,6 @@ export default {
 
         const pushTask = async (taskk, workerr, descc, datee, colorr, tabID) => {
             createTask.value = null;
-            console.log(fileDataTask.value)
             try {
                 const { error } = await supabase
                     .from('tasks_table')
